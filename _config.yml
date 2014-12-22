@@ -6,7 +6,7 @@
 name: hackalyst
 
 # Short bio or description (displayed in the header)
-description: muggle
+description: muddled muggle
 
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png
@@ -21,13 +21,13 @@ footer-links:
   email: 
   facebook: 
   flickr: 
-  github: anshprat/anshprat.github.io
+  github: anshprat
   instagram: 
-  linkedin: /in/anshuprateek
+  linkedin: anshuprateek
   pinterest: 
   rss: # just type anything here for a working RSS icon, make sure you set the "url" above!
   twitter: anshprat
-  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  stackoverflow: users/1675384/anshu-prateek # your stackoverflow profile, e.g. "users/50476/bart-kiers"
 
 # Your disqus shortname, entering this will enable commenting on posts
 disqus: 
