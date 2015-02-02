@@ -29,7 +29,7 @@ author:
 <p>The rackspace DNS is still in primitive era. Recently they have announced overhaul of their entire DNS but its yet stuck in the last mile deliverable, i.e, a working GUI.</p>
 <p>Add to that, their "beta" API docs (I didn't know for a while what's in beta, the API or the docs :P ).</p>
 <p>Anyways, my first attempt to use the GUI was faced with continuous failure :!</p>
-<p><img src="images/Screen-shot-2011-09-24-at-3.00.28-PM11.png" alt="rackspaceAAAAfailure" /></p>
+<p><img src="/images/Screen-shot-2011-09-24-at-3.00.28-PM11.png" alt="rackspaceAAAAfailure" /></p>
 <p>After a quick chat with their customer care, I was pointed to their <a href="http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/supported_record_types.html" target="_blank">DNS API</a>. Apparently AAAA support is not in GUI yet.</p>
 <p>Ok, now lets give it a try.</p>
 <p>Documentation is always a pain, but I guess when your moolah depends upon that, it should be better. Now I am usually pretty good at RTFM, but this time it was simply not happening. Rackspace needs to spruce up that documentation a lot!</p>
@@ -39,7 +39,7 @@ record to your rackspace in case the GUI is failing.</p>
 <p>First step:</p>
 <p>Get your rackspace API Key.<br />
 For this, you first need to login to your rackspace account and get the API key. Its located under "Your account" section</p>
-<p><a href="http://hackalyst.info/wp-content/uploads/2011/09/apiaccess11.png"><img class="alignnone size-medium wp-image-304" title="Rackspace API access" src="images/apiaccess1-300x220.png" alt="" width="300" height="220" /></a></p>
+<p><a href="http://hackalyst.info/wp-content/uploads/2011/09/apiaccess11.png"><img class="alignnone size-medium wp-image-304" title="Rackspace API access" src="/images/apiaccess1-300x220.png" alt="" width="300" height="220" /></a></p>
 <p>Click on Show Key to show your key. Or you can generate a new API key on that page using Generate new key.</p>
 <p>Second step:<br />
 Get an authetication token.<br />
@@ -67,7 +67,7 @@ Or for those not aware of it, you can use the firefox plugin we installed earlie
 <p>Open the plugin from the tools menu under firefox. I am on mac. So choose the respective menu for your platform.</p>
 <p>Select the RestClient.</p>
 <p>Select GET method. Put the url as your endpoint that you found above. Click on Add Header<br />
-<a href="http://hackalyst.info/wp-content/uploads/2011/09/addHeader11.png"><img class="alignnone size-full wp-image-310" title="addHeader" src="images/addHeader11.png" alt="" width="1003" height="230" /></a></p>
+<a href="http://hackalyst.info/wp-content/uploads/2011/09/addHeader11.png"><img class="alignnone size-full wp-image-310" title="addHeader" src="/images/addHeader11.png" alt="" width="1003" height="230" /></a></p>
 <p>Name - X-Auth-User<br />
 Value - yourRackspaceLogin</p>
 <p>Add another header<br />
