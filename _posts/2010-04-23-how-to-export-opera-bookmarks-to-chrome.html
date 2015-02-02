@@ -1,0 +1,44 @@
+---
+layout: post
+title: How to export opera bookmarks to chrome?
+date: 2010-04-23 19:55:29.000000000 +02:00
+categories:
+- apple
+- mac
+- web2.0
+tags:
+- apple
+- chrome
+- mac
+- opera
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author: 
+---
+<p>Let me tell you first what all I am going to tell you in this post. I am going to tell you how to export your opera bookmarks and speed dial settings to Google chrome in case chrome is not auto recognising opera as a browser from which you can import settings. And all this in an apple Mac. Am assuming your chrome recognised your  installed firefox as a browser from which you can import your bookmarks. So here, for the bookmarks, we are basically going to do Opera -> Firefox -> Chrome.</p>
+<p>First and foremost, how to export opera bookmarks in mac to google chrome in mac. </p>
+<p>In Opera, Go to File -> Import and Export -> Export Bookmarks as HTML and save the bookmarks.html.</p>
+<p><a href="http://anshprat.info/wp-content/uploads/2010/04/Picture-3.png"><img src="images/Picture-3.png" alt="" title="Export from Opera" width="616" height="395" class="alignleft size-full wp-image-130" /></a></p>
+<p>Now open the default profile of your Firefox. For those who are wondering whats the default profile, then most probably thats the only profile you are having. So just open firefox. For those who know what the default profile means, we need to open the default profile because Google chrome can import from only the default profile of Firefox.</p>
+<p>Now in firefox, go to bookmarks -> Manage Bookmarks (Command+Shift+B) -> Import Html (See screenshot below)</p>
+<p><a href="http://anshprat.info/wp-content/uploads/2010/04/Picture-4.png"><img src="images/Picture-4.png" alt="" title="Import in Firefox" width="358" height="236" class="alignleft size-full wp-image-129" /></a></p>
+<p>Now in Chrome,</p>
+<p>Go to Chrome-> Import bookmarks and Settings.<br />
+Choose firefox from the popup window.<br />
+And if all goes fine, then your opera bookmarks must now be in Chrome :)</p>
+<p>Now importing your opera speed-dials into chrome is a hell lot trickier. Ofcourse, chrome provides an easy gui to add customised search engines (Right click in address bar -> edit search engines) The name is a name by which you can remember which search you are using. The keyword is the word that you will use to tell chrome to identify which search to use. Example , if g is your keyword for google.com (and assuming you ve changed your default search engine :P ) then g test query will make chrome use google for searching test query.</p>
+<p>Now why on earth would one want to use alternate search engines?<br />
+This is easily answered in a corporate world. Where you have your own corp related internal multiple search applications. </p>
+<p>The way I did it was (summary, ask in comments if you really wanna know. I am lazy :P )<br />
+1) Install speeddial extension in chrome. (Am not sure if its quite essential).<br />
+2) Get the speeddial.ini file of opera.<br />
+3) Strip out the name, keyword and searchurl. Replace %S with {searchTerms}<br />
+4) Create multiple sql queries like</p>
+<p>INSERT INTO keywords(short_name,favicon_url,keyword,url) values("value1","value2","value3");</p>
+<p>5) Use sqlite plugin of firefox to edit the chrome sqlite file "Web Data" that stores all this info.<br />
+Navigate to keywords table in the database. Go to Execute SQL and run your sql query you generated above.<br />
+This will add your opera search engines (customised) to chrome!</p>
+<p>So now you know how to import opera bookmarks into chrome!</p>

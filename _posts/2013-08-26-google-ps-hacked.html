@@ -1,0 +1,150 @@
+---
+layout: post
+title: google.ps hacked
+date: 2013-08-26 18:31:46.000000000 +02:00
+categories:
+- web2.0
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _wpas_skip_3369783: '1'
+  _wpas_skip_2752212: '1'
+  _oembed_3393f0e4354ce35fdb7c9d2246d85292: '{{unknown}}'
+  _oembed_6fddc0de65d45f212bc9377894e5b198: '{{unknown}}'
+  _oembed_ef2d20aa239a7cefb7549d20bf68c77c: '{{unknown}}'
+  _oembed_1188218c6fe6250e67cc48d8aeb72243: '{{unknown}}'
+author: 
+---
+<p>Looks like google.ps got its dns hacked.</p>
+<p><a href="#update1">Update below</a><br />
+<a href="#update2">Update 2-  Looks like its a .ps registry hack rather!(based on HN)</a><br />
+<a href="#update3">Update  3  - Alls well again</a></p>
+<p>[anshup@aero ~]$ host google.ps<br />
+google.ps has address 41.77.118.2<br />
+google.ps mail is handled by 0 google.ps.</p>
+<p>[anshup@aero ~]$ host 41.77.118.2<br />
+2.118.77.41.in-addr.arpa domain name pointer abubakr.genious.net.</p>
+<p>[anshup@aero ~]$ sudo nmap 41.77.118.2</p>
+<p>Starting Nmap 6.40 ( http://nmap.org ) at 2013-08-26 23:33 IST<br />
+Nmap scan report for abubakr.genious.net (41.77.118.2)<br />
+Host is up (0.21s latency).<br />
+Not shown: 981 filtered ports<br />
+PORT STATE SERVICE<br />
+20/tcp closed ftp-data<br />
+21/tcp open ftp<br />
+22/tcp closed ssh<br />
+25/tcp open smtp<br />
+26/tcp open rsftp<br />
+53/tcp open domain<br />
+80/tcp open http<br />
+110/tcp open pop3<br />
+143/tcp open imap<br />
+389/tcp closed ldap<br />
+443/tcp open https<br />
+465/tcp open smtps<br />
+554/tcp open rtsp<br />
+587/tcp open submission<br />
+993/tcp open imaps<br />
+995/tcp open pop3s<br />
+2000/tcp closed cisco-sccp<br />
+3306/tcp open mysql<br />
+7070/tcp open realserver</p>
+<p>[anshup@aero ~]$ dig NS google.ps</p>
+<p>; &lt;&lt;&gt;&gt; DiG 9.9.3-rl.13207.22-P2-RedHat-9.9.3-5.P2.fc19 &lt;&lt;&gt;&gt; NS google.ps<br />
+;; global options: +cmd<br />
+;; Got answer:<br />
+;; -&gt;&gt;HEADER&lt; ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 0</p>
+<p>;; QUESTION SECTION:<br />
+;google.ps. IN NS</p>
+<p>;; ANSWER SECTION:<br />
+google.ps. 21590 IN NS omar.genious.net.<br />
+google.ps. 21590 IN NS hamza.genious.net.</p>
+<p>;; Query time: 2 msec<br />
+;; SERVER: 10.0.1.1#53(10.0.1.1)<br />
+;; WHEN: Mon Aug 26 23:48:13 IST 2013<br />
+;; MSG SIZE rcvd: 77</p>
+<p>[anshup@aero ~]$ dig @8.8.8.8 google.ps</p>
+<p>; &lt;&lt;&gt;&gt; DiG 9.9.3-rl.13207.22-P2-RedHat-9.9.3-5.P2.fc19 &lt;&lt;&gt;&gt; @8.8.8.8 google.ps<br />
+; (1 server found)<br />
+;; global options: +cmd<br />
+;; Got answer:<br />
+;; -&gt;&gt;HEADER&lt; ;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1</p>
+<p>;; OPT PSEUDOSECTION:<br />
+; EDNS: version: 0, flags:; udp: 512<br />
+;; QUESTION SECTION:<br />
+;google.ps. IN A</p>
+<p>;; ANSWER SECTION:<br />
+google.ps. 7367 IN A 41.77.118.2</p>
+<p>;; Query time: 14 msec<br />
+;; SERVER: 8.8.8.8#53(8.8.8.8)<br />
+;; WHEN: Mon Aug 26 23:50:56 IST 2013<br />
+;; MSG SIZE rcvd: 54</p>
+<p><a id="update1">UPDATE:</a></p>
+<p>Looks like www.google.ps is fine whereas google.ps is hacked.</p>
+<p>[anshup@aero ~]$ host www.google.ps<br />
+www.google.ps has address 74.125.236.55<br />
+www.google.ps has address 74.125.236.63<br />
+www.google.ps has address 74.125.236.56<br />
+www.google.ps has IPv6 address 2404:6800:4007:800::1018</p>
+<p>[anshup@aero ~]$ host google.ps<br />
+google.ps has address 41.77.118.2<br />
+google.ps mail is handled by 0 google.ps.</p>
+<p>Also, the site hosting the hacked google site seems to belong to this guy:</p>
+<p>https://twitter.com/ElZakaria<br />
+https://www.facebook.com/preemptif</p>
+<p><a id="update2">Update 2</a><br />
+Based on Hacker News, looks like its a .ps registry hack rather.<br />
+<a href="https://news.ycombinator.com/item?id=6278976" target="_blank">https://news.ycombinator.com/item?id=6278976</a><br />
+Looks like similar to the .ro (romanian) registry hack late <a href="http://threatpost.com/update-attack-romanian-tld-register-led-google-yahoo-defacements-and-dns-redirects-112812/77253" target="_blank">last year</a>.</p>
+<p><a id="update3">Update 3</a></p>
+<p>At around 0530 Hrs IST (0000 UTC), aug 27th, the DNS at genious.net seems to have been re-populated with proper gooogle ips.</p>
+<p>;; ANSWER SECTION:<br />
+google.ps.              7349    IN      NS      omar.genious.net.<br />
+google.ps.              7349    IN      NS      hamza.genious.net.</p>
+<p>;; Query time: 8 msec<br />
+;; SERVER: 8.8.8.8#53(8.8.8.8)<br />
+;; WHEN: Tue Aug 27 05:20:01 BDT 2013<br />
+;; MSG SIZE  rcvd: 88</p>
+<p>;; ANSWER SECTION:<br />
+google.ps.              299     IN      A       74.125.236.50<br />
+google.ps.              299     IN      A       74.125.236.49<br />
+google.ps.              299     IN      A       74.125.236.52<br />
+google.ps.              299     IN      A       74.125.236.48<br />
+google.ps.              299     IN      A       74.125.236.51</p>
+<p>;; Query time: 86 msec<br />
+;; SERVER: 8.8.8.8#53(8.8.8.8)<br />
+;; WHEN: Tue Aug 27 05:20:01 BDT 2013<br />
+;; MSG SIZE  rcvd: 118</p>
+<p>This because the TTL for the genious.net DNS was quite high preventing the google SOA from propagating.</p>
+<p>At around 0722 IST, the SOA TTL expired from google's own 8.8.8.8 DNS.</p>
+<p>;; ANSWER SECTION:<br />
+google.ps.              149     IN      NS      omar.genious.net.<br />
+google.ps.              149     IN      NS      hamza.genious.net.</p>
+<p>;; Query time: 8 msec<br />
+;; SERVER: 8.8.8.8#53(8.8.8.8)<br />
+;; WHEN: Tue Aug 27 07:20:01 BDT 2013<br />
+;; MSG SIZE  rcvd: 88</p>
+<p>;; ANSWER SECTION:<br />
+google.ps.              299     IN      A       74.125.236.52<br />
+google.ps.              299     IN      A       74.125.236.49<br />
+google.ps.              299     IN      A       74.125.236.51<br />
+google.ps.              299     IN      A       74.125.236.48<br />
+google.ps.              299     IN      A       74.125.236.50</p>
+<p>;; Query time: 93 msec<br />
+;; SERVER: 8.8.8.8#53(8.8.8.8)<br />
+;; WHEN: Tue Aug 27 07:20:01 BDT 2013<br />
+;; MSG SIZE  rcvd: 118<br />
+;; ANSWER SECTION:<br />
+google.ps.              21599   IN      NS      ns2.google.com.<br />
+google.ps.              21599   IN      NS      ns3.google.com.<br />
+google.ps.              21599   IN      NS      ns1.google.com.<br />
+google.ps.              21599   IN      NS      ns4.google.com.</p>
+<p>;; Query time: 114 msec<br />
+;; SERVER: 8.8.8.8#53(8.8.8.8)<br />
+;; WHEN: Tue Aug 27 07:30:01 BDT 2013<br />
+;; MSG SIZE  rcvd: 120</p>
+<p><a href="http://hackalyst.info/wp-content/uploads/2013/08/Screenshot-from-2013-08-26-23492711.png"><img class="alignnone size-full wp-image-379" alt="Screenshot from 2013-08-26 23:49:27" src="images/Screenshot-from-2013-08-26-23492711.png" width="1366" height="768" /></a></p>

@@ -1,0 +1,127 @@
+---
+layout: post
+title: How to enable WOL on Dell Inspiron 1420 with Fedora/Linux
+date: 2011-08-21 18:15:24.000000000 +02:00
+categories:
+- linux
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _oembed_6b73f6f922356da485d4d0ca28a4e5ab: '{{unknown}}'
+  _oembed_93fee9de077a0aa52376d8572993b45c: '{{unknown}}'
+  _oembed_df1bbbedc09f49a96a0e037fe8b0e336: '{{unknown}}'
+author: 
+---
+<p>I use my laptop (dell Inspiron 1420) as a server for remote access from office. Even at home, my primary laptop is my mac. I just let my dell run all the time as I don't know when I would need/want to access that from office. </p>
+<p>I wanted to enable WOL or Wake Up on Lan so that I could start my laptop from office if required. Even though it says "Wake Up on Lan", it can be started from internet as well.</p>
+<p>First place to start was to enable the WOL option in BIOS. And lo.. it wasn't there.. ! So, does my NIC card doesn't support WOL ?</p>
+<p>But a quick probe using ethtool showed WOL was indeed supported on my card.</p>
+<blockquote><p>[root@mouthwa init.d]# ethtool eth0<br />
+Settings for eth0:<br />
+        Supported ports: [ TP ]<br />
+        Supported link modes:   10baseT/Half 10baseT/Full<br />
+                                100baseT/Half 100baseT/Full<br />
+        Supports auto-negotiation: Yes<br />
+        Advertised link modes:  10baseT/Half 10baseT/Full<br />
+                                100baseT/Half 100baseT/Full<br />
+        Advertised pause frame use: No<br />
+        Advertised auto-negotiation: Yes<br />
+        Speed: 100Mb/s<br />
+        Duplex: Full<br />
+        Port: Twisted Pair<br />
+        PHYAD: 1<br />
+        Transceiver: internal<br />
+        Auto-negotiation: on<br />
+        MDI-X: Unknown<br />
+<strong>        Supports Wake-on: g</strong><br />
+        Wake-on: d<br />
+        Current message level: 0x000000ff (255)<br />
+        Link detected: yes
+</p></blockquote>
+<p>Now the next line, Wake-on: d means that WOl was disabled. To enable WOL, use:</p>
+<blockquote><p>
+ethtool -s eth0 wol g
+</p></blockquote>
+<p>Now this change is not persistent, i.e, it will be gone in the next reboot.<br />
+So to make it persisten, I put a file in /etc/init.d/</p>
+<p>cat /etc/init.d/wol<br />
+#!/bin/bash<br />
+#wake on lan<br />
+ethtool -s eth0 wol g<br />
+exit</p>
+<p>Do a chmod +x on the file.</p>
+<p>Now check which all devices are allowed to wake up your system in the OS:</p>
+<blockquote><p>
+[root@mouthwa init.d]# cat /proc/acpi/wakeup<br />
+Device  S-state   Status   Sysfs node<br />
+PCI0      S5    *disabled  no-bus:pci0000:00<br />
+PCIE      S4    *disabled  pci:0000:00:1e.0<br />
+USB1      S0    *disabled  pci:0000:00:1d.0<br />
+USB2      S0    *disabled  pci:0000:00:1d.1<br />
+USB3      S0    *disabled  pci:0000:00:1d.2<br />
+USB4      S0    *disabled  pci:0000:00:1a.0<br />
+USB5      S0    *disabled  pci:0000:00:1a.1<br />
+EHC2      S0    *disabled  pci:0000:00:1a.7<br />
+EHCI      S0    *disabled  pci:0000:00:1d.7<br />
+AZAL      S3    *disabled  pci:0000:00:1b.0<br />
+RP01      S3    *disabled  pci:0000:00:1c.0<br />
+RP02      S3    *disabled  pci:0000:00:1c.1<br />
+RP03      S3    *disabled<br />
+RP04      S3    *disabled  pci:0000:00:1c.3<br />
+RP05      S3    *disabled<br />
+RP06      S5    *disabled  pci:0000:00:1c.5<br />
+LID       S3    *enabled<br />
+PBTN      S4    *enabled<br />
+MBTN      S5    *disabled
+</p></blockquote>
+<p>I need to find out which of the above is my NIC card and enable wake up for that.</p>
+<blockquote><p>
+[root@mouthwa init.d]# lspci -tv<br />
+-[0000:00]-+-00.0  Intel Corporation Mobile PM965/GM965/GL960 Memory Controller Hub<br />
+           +-01.0-[01]----00.0  nVidia Corporation G86 [GeForce 8400M GS]<br />
+           +-1a.0  Intel Corporation 82801H (ICH8 Family) USB UHCI Controller #4<br />
+           +-1a.1  Intel Corporation 82801H (ICH8 Family) USB UHCI Controller #5<br />
+           +-1a.7  Intel Corporation 82801H (ICH8 Family) USB2 EHCI Controller #2<br />
+           +-1b.0  Intel Corporation 82801H (ICH8 Family) HD Audio Controller<br />
+           +-1c.0-[0b]--<br />
+           +-1c.1-[0c]----00.0  Intel Corporation PRO/Wireless 3945ABG [Golan] Network Connection<br />
+           +-1c.3-[0d-0e]--<br />
+         <strong>  +-1c.5-[09]----00.0  Broadcom Corporation NetLink BCM5906M Fast Ethernet PCI Express</strong><br />
+           +-1d.0  Intel Corporation 82801H (ICH8 Family) USB UHCI Controller #1<br />
+           +-1d.1  Intel Corporation 82801H (ICH8 Family) USB UHCI Controller #2<br />
+           +-1d.2  Intel Corporation 82801H (ICH8 Family) USB UHCI Controller #3<br />
+           +-1d.7  Intel Corporation 82801H (ICH8 Family) USB2 EHCI Controller #1<br />
+           +-1e.0-[03]--+-01.0  Ricoh Co Ltd R5C832 IEEE 1394 Controller<br />
+           |            +-01.1  Ricoh Co Ltd R5C822 SD/SDIO/MMC/MS/MSPro Host Adapter<br />
+           |            +-01.2  Ricoh Co Ltd R5C592 Memory Stick Bus Host Adapter<br />
+           |            -01.3  Ricoh Co Ltd xD-Picture Card Controller<br />
+           +-1f.0  Intel Corporation 82801HEM (ICH8M) LPC Interface Controller<br />
+           +-1f.1  Intel Corporation 82801HBM/HEM (ICH8M/ICH8M-E) IDE Controller<br />
+           +-1f.2  Intel Corporation 82801HBM/HEM (ICH8M/ICH8M-E) SATA AHCI Controller<br />
+           -1f.3  Intel Corporation 82801H (ICH8 Family) SMBus Controller
+</p></blockquote>
+<p>Notice the 1c.5 in front of my LAN card in the lspci output above. Look for the same number in the /proc/acpi/wakeup and I find that my card is RPC06!</p>
+<p>Now to enable the wakeup for my card, a simple echo will do:</p>
+<p><code><br />
+[root@mouthwa init.d]# echo RP06>/proc/acpi/wakeup<br />
+[root@mouthwa init.d]# cat /proc/acpi/wakeup |grep RP06<br />
+RP06      S5    *enabled   pci:0000:00:1c.5<br />
+</code></p>
+<p>So there you are, WOL is enabled!<br />
+However, it can wake up only from certain states, not all at the moment.</p>
+<p>So, the best way to switch off the laptop so that it can be woken from LAN is</p>
+<p>[root@mouthwa init.d]# pm-suspend-hybrid </p>
+<p>What it does is that the system does everything it needs to hibernate, but suspends instead of shutting down. This means that your computer can wake up quicker than for<br />
+           normal hibernation if you do not run out of power, and you can resume even if you run out of power.<br />
+Most of the above was sourced from <a href="http://ubuntuforums.org/showthread.php?t=1229783" target="_blank">here</a>.</p>
+<p>Now, the script to wake up from internet.</p>
+<p>I got it from <a href="http://www.hackernotcracker.com/2006-04/wol-wake-on-lan-tutorial-with-bonus-php-script.html" target="_blank">here</a>:<br />
+http://www.hackernotcracker.com/2006-04/wol-wake-on-lan-tutorial-with-bonus-php-script.html</p>
+<p>Also, If you dont want to or dont have a place to run scripts, you can use online services like:</p>
+<p><a href="http://www.depicus.com/wake-on-lan/woli.aspx" target="_blank">http://www.depicus.com/wake-on-lan/woli.aspx</a></p>
+<p>Ofcourse, you need to know your MAC address, your router address and the subnet.<br />
+Keep subnet as 255.255.255.255 in the depicus page if you have one public ip and the router allots private ips using DHCP. (This is true for most of the routers).</p>
+<p>And now, I can happily power down my laptop and wake it up when required! #FTW</p>

@@ -1,0 +1,27 @@
+---
+layout: post
+title: Starting programs on a remote linux desktop
+date: 2011-02-09 22:25:44.000000000 +01:00
+categories:
+- linux
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wp_old_slug: ''
+author: 
+---
+<p>This was something that I was looking for a long time and finally found while looking for a completely different thing altogether!<br />
+Agreed I always wanted this only for mischief :P Basically what I wanted was to fire up any GUI so that it would show on a remote desktop and not on my local display. clearly I didn't want vnc or ssh -XCYP.</p>
+<p>What I needed was this:</p>
+<p>ssh -X host<br />
+export DISPLAY=:0</p>
+<p>and then I can run any gui and it will open on the remote desktop.<br />
+would make things look like some hacky mischief ;)</p>
+<p>okay, another thing I learnt was how to start and stop gnome screensaver remotely.</p>
+<p>so instead of doing a killall -9 screensaver, you can do<br />
+gnome-screensaver-command -d</p>
+<p>So there are things that are still fun!<br />
+Gosh, do I miss college!</p>

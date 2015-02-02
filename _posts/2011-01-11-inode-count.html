@@ -1,0 +1,23 @@
+---
+layout: post
+title: inode count
+date: 2011-01-11 11:00:45.000000000 +01:00
+categories:
+- linux
+tags:
+- inode
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wp_old_slug: ''
+author: 
+---
+<p>This is something that I never had to deal with before! But one of the customised systems when was being used for some other purpose ran into inode count being full issue! That is, you have disk space left but no inode. Happens when you ve a lot of small files. In this case, the system was customised to reduce the number of inodes for the original purpose, (had quite some space with lesser number of bigger files).</p>
+<p>Anyways,<br />
+the way to see the inode count is a simple:</p>
+<p>df -i </p>
+<p>:)</p>
+<p>cheers!<br />
+Anshu</p>

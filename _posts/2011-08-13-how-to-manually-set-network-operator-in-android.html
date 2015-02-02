@@ -1,0 +1,21 @@
+---
+layout: post
+title: How to stop auto selection of preferred network operator in android or set
+  manual operator selection.
+date: 2011-08-13 13:53:05.000000000 +02:00
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author: 
+---
+<p>I was hunting for this question for the past few days, ever since I enabled 3G on my nexus S vodafone connection. The phone would use auto PRL (preferred Roaming List) to switch over the network with better connection. In my case I was getting two vodafone networks. While I could always receive calls and messages, I could never send a message or make a call unless I reselected the other network.</p>
+<p>To avoid this, and cases like <a href="http://www.androidpit.com/en/android/forum/thread/405498/Manual-Network-Selection" target="_blank">these</a> , you need to switch off automatically select prefereed network.</p>
+<p>The way to do this is </p>
+<p>dial *#*#4636#*#*</p>
+<p>click Phone Info -> Set preferred network type -> GSM only (or CDMA if you are using CDMA).</p>
+<p>The important thing here is not to use any auto or PRL settings.</p>
+<p>And voila, now your android phone will only use manual network operator, just like the golden times...</p>

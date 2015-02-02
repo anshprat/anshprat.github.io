@@ -1,0 +1,51 @@
+---
+layout: post
+title: Moving from rackspace to digital ocean
+date: 2013-08-31 18:00:45.000000000 +02:00
+categories:
+- tech
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+author: 
+---
+<p>I finally moved my hosting from <a href="http://rackspace.com" target="_blank">rackspace</a> to <a href="http://digitalocean.com" target="_blank">digital ocean</a> (hereafter mostly referred to as DO). The reasons were simple - better config for half the price (especially in terms of memory). In rackspace, I was paying $10 a month for about 245 MB of RAM. In DO, I am getting 491 MB of RAM for $5. I had to resort to 5 minutes cron to keep restart httpd and cleaning up the cache to keep it sane on rackspace. Hopefully, things will be better at DO.</p>
+<p>I first came across DO through facebook ads. The thing that caught my eyes was the SSD hosting. In my present job with Aeropsike, Inc, I deal with SSD on a daily basis and surely hosting my own blog on SSD was lucrative. Needless to say getting it at half the existing hosting charges was also enticing. I sat on it for a few weeks, finally got around to clear a DO account and left it short of adding my payment details (to search for a discount code). Few weeks later, I went back, added my payment details (sans any discount coupons) and went ahead to create my first droplet. The UI asked the hostname first thing at the top, and then some clicks to chose your OS version. I missed the hostname part first and selected fedora. On submit, the UI gave an error that hostname is missing. A quick scroll up and then the form was all green. DO boasts of 55 seconds to get your droplet up. While I did not actually time it, the experience was definitely faster than creating EC2 in Amazon WS and rackspace as well. </p>
+<p><a href="http://hackalyst.info/wp-content/uploads/2013/08/Screenshot-from-2013-08-31-230500.png"><img src="images/Screenshot-from-2013-08-31-230500.png" alt="Screenshot from 2013-08-31 23:05:00" width="1366" height="768" class="alignnone size-full wp-image-387" /></a></p>
+<p><a href="http://hackalyst.info/wp-content/uploads/2013/08/Screenshot-from-2013-08-31-230520.png"><img src="images/Screenshot-from-2013-08-31-230520.png" alt="Screenshot from 2013-08-31 23:05:20" width="1366" height="768" class="alignnone size-full wp-image-388" /></a></p>
+<p>Its easy to miss the hostname if you scroll right down to the lower part of page where you do the size and OS selection</p>
+<p>DO mails over your root password and then you are pretty much on your own. Here also considering am more comfortable with setting up my own environment using terminal, it was faster for me to create users and add my ssh keys than pre generated users etc.</p>
+<p>I then quickly did yum install of wordpress to pull in the required dependencies, export and import from my older blog installation and a quick redo post changing the domain (only dropping the database and then import), my new install of blog was up and running. The reason I chose to reinstall the db for wp was that the first time I did install using stg.hackalyst.info/blog/wp and then changing the css and js links later would have been a pain. (Though now looks like wp has a way of specifying alternate install location in the configuration. Will check it out later).</p>
+<p>After installing wp, I tried to activate my jetpack and I kept getting the error:</p>
+<blockquote><p>
+Your Jetpack has a glitch. Something went wrong that’s never supposed to happen. Guess you’re just lucky: xml_rpc-32601<br />
+Try connecting again.</p>
+<p>Error Details: The Jetpack server could not communicate with your site's XML-RPC URL. If you have the W3 Total Cache plugin installed, deactivate W3 Total Cache, try to Connect to WordPress.com again, reactivate W3 Total Cache, then clear W3 Total Cache's cache.</p></blockquote>
+<p>A few quick web searches later I realised its because the DNS name has not yet propagated for the server. I waited for few hours and later it just worked fine.</p>
+<p>Another problem I had with the new wp install was setting up the permalinks. On setting up the permalinks in configuration, I kept getting 404. I searched the docs a bit but found the solution in my own older post when I searched for permalink.</p>
+<p><a href="http://hackalyst.info/2010/02/17/setting-up-your-websiteblog-using-wordpress-on-a-slicehost-slice/" target="_blank">http://hackalyst.info/2010/02/17/setting-up-your-websiteblog-using-wordpress-on-a-slicehost-slice/</a></p>
+<p>In short, I had to change<br />
+AllowOverride FileInfo</p>
+<p>in directory directive in httpd.conf found in /etc/httpd/conf folder.</p>
+<p>Rather this time, I decided to add the blog directory itself to the virtual host config and voila, it all worked fine.</p>
+<p>Another warning I got while doing the wordpress install and configuration with apache httpd was</p>
+<blockquote><p>
+AH00548: NameVirtualHost has no effect and will be removed in the next releas</p></blockquote>
+<p>I wanted to know what the change actually meant and found this link in a comment here<br />
+<a href="http://httpd.apache.org/docs/current/vhosts/name-based.html" target="_blank">httpd.apache.org/docs/current/vhosts/name-based.html</a> which lead me to</p>
+<p><a href="http://httpd.apache.org/docs/2.4/upgrading.html#misc" target="_blank">http://httpd.apache.org/docs/2.4/upgrading.html#misc</a></p>
+<blockquote><p>
+The NameVirtualHost directive no longer has any effect, other than to emit a warning. Any address/port combination appearing in multiple virtual hosts is implicitly treated as a name-based virtual host. </p></blockquote>
+<p>Though I still haven't found what the number AH0048 mean. Maybe I will have to dig into the source code or mailing lists archive to find the meaning of that number.</p>
+<p>Coming back to DO, though they advertise SSD setups, the vm I am on says its rotational.</p>
+<p><code>[root@hackalyst conf]# cat /sys/block/vda/queue/rotational<br />
+1<br />
+</code></p>
+<p>Will see if I can figure out the actual disk.</p>
+<p>So far my DO experience has been good. Fingers crossed. Lets see how it goes. I will be disabling my rackspace server soon.</p>
+<p>IPv6 is still missing in DO though. So I might get back to tunnel like how I was doing on slicehost before moving to rackspace.</p>
+<p>Here is how to get ipv6 using <a href="http://hackalyst.info/2011/09/27/how-to-get-ipv6-connection-in-india/" target="_blank">tunnels</a>. Though the blog post says in India, its geographic independent.</p>

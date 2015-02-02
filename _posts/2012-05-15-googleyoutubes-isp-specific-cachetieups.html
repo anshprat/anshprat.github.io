@@ -1,0 +1,50 @@
+---
+layout: post
+title: Google/Youtube's ISP specific cache/tieups ?
+date: 2012-05-15 23:42:57.000000000 +02:00
+categories:
+- ipv6
+- tech
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author: 
+---
+<p>hi,</p>
+<p>Today we are going to discuss possible google tieups with local ISP's to create caching layers in order to deliver better experience to high bandwidth customers.</p>
+<p>I stumbled upon the same while browsing one of google's pages which had an embedded youtube video. Initially it was very slow and I was quite surprised since I am on a 10mbps bandwidth connection and am usually able to stream even HD videos on youtube without any buffering delays. Then I realised that most probably I was going over the ipv6 network (and hence tunneling all the way to US and not getting local content) and hence the delay. I fired my wireshark and indeed I was going over the ipv6 network. I mulled over disabling the ipv6 in router and keeping it only in my dev box when I realised that I can simply disable ipv6 browsing in my firefox :).<br />
+<code><br />
+about:config -> network.dns.disableIPv6;true </code></p>
+<p>And am done :)</p>
+<p>After doing the above, I reloaded the earlier page with firebug enabled. The embedded video was now playing smoothly without any buffering delays. And then all of a sudden I saw this in the firebug network panel:</p>
+<p><code>o-o.preferred.actbroadband-blr1.v3.lscache3.c.youtube.com</code></p>
+<p>wait what?!<br />
+So google has a cache specifically for my ISP?! (I use <a href="http://acttv.in/broadband.html" title="ACT Broadband" target="_blank">ACT broadband</a>).<br />
+Now that my curiosity was pipped, I decided to do a lil more digging.</p>
+<p><code>[anshup@mouthwa ~]$ host o-o.preferred.actbroadband-blr1.v3.lscache3.c.youtube.com<br />
+o-o.preferred.actbroadband-blr1.v3.lscache3.c.youtube.com has address 202.83.22.14<br />
+o-o.preferred.actbroadband-blr1.v3.lscache3.c.youtube.com has IPv6 address 2404:6800:4007:2::e</code></p>
+<p>Oh, so they ve also ipv6 enabled it, nice.<br />
+<code><br />
+whois 202.83.22.14<br />
+<snip><br />
+descr:          BroadBand Internet Service Provider, India<br />
+..<br />
+address:        ACT Television<br />
+address: # 29/4, 4th Floor, Trade Center,<br />
+address:        Race Course Road, Bangalore - 560 001<br />
+</snip></p>
+<p>[anshup@mouthwa ~]$ whois 2404:6800:4007:2::e<br />
+<snip><br />
+inet6num:       2404:6800::/32<br />
+netname:        GOOGLE_IPV6_AP-20080930<br />
+descr:          Google IPv6 address block in AP<br />
+country:        AU<br />
+</snip><br />
+</code></p>
+<p>Ah, so while the ipv4 cache was coming from my local ISP, the ipv6 cache was coming all the way from australia? So even though google might ve teamed up and linked a deal with local broadband providers, it still is some miles away in getting ipv6 cache to India? Or possibly because am on an ipv6 tunnel rather, it ended up using my tunnel endpoint as the preferred location rather than my original location.</p>
+<p>The more interesting part is that Google has apparently created up local caches at ISP ends to help give better speed to the end user. I need to check it up on some other ISP s here in bangalore and then will update the results here.</p>
+<p>cheers</p>

@@ -1,0 +1,51 @@
+---
+layout: post
+title: A beginners guide to git how to!
+date: 2011-08-28 07:52:43.000000000 +02:00
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author: 
+---
+<p>hi,</p>
+<p>Let me first tell you what all I am going to tell you.</p>
+<p>If you are coming from the world of svn/cvs (like me), I am going to tell you how to do git equivalent of</p>
+<p>svn checkout ( git clone)</p>
+<p>svn commit = (git add + git commit + git push)</p>
+<p>What I am not going to tell you is how to setup your git account, create a new git repo etc, as the existing documentation on git is pretty good for these.</p>
+<p>Ok, so lets begin now. I am assuming that your git account is ready, new files/folders are setup and you want to checkout your project in a new workspace.</p>
+<p>In SVN, its a simple </p>
+<p>svn checkout {location}</p>
+<p>however when we try similar thing in git, we get an error!<br />
+<code><br />
+git checkout git@github.com:anshprat/myFiles.git<br />
+fatal: Not a git repository (or any parent up to mount parent )<br />
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).<br />
+</code><br />
+Whoops!<br />
+You see, git checkout is not like svn checkout. What git checkout does is checkout a branch or paths to the working tree.</p>
+<p>So to do a fresh git "checkout", you basically have to do a git clone.<br />
+<code><br />
+ git clone git@github.com:anshprat/myFiles.git<br />
+Cloning into myFiles...<br />
+Enter passphrase for key '/home/anshup/.ssh/id_rsa':<br />
+remote: Counting objects: 6, done.<br />
+remote: Compressing objects: 100% (3/3), done.<br />
+remote: Total 6 (delta 0), reused 3 (delta 0)<br />
+Receiving objects: 100% (6/6), done.</code></p>
+<p>Voila! Am done.</p>
+<p>Now how to do a git equivalent of svn commit ?</p>
+<p>In git, this is broken down into 3 parts:</p>
+<p>git add<br />
+git commit<br />
+git push</p>
+<p>In svn, svn add is only for adding a new file to under revision control.<br />
+In git, git add, is useful for adding any changes to the index that would be finally merged or committed to the git repo online.</p>
+<p>git commit : by this you are confirming that the changed files that you ve added by git add are ready to be committed.</p>
+<p>git push: This is the command that finally pushes your changes back to the git repository!</p>
+<p>So now you know how to do a "svn checkout and svn commit" using git :P</p>
+<p>Look out for more as I delve more into git :)</p>

@@ -1,0 +1,52 @@
+---
+layout: post
+title: Fedora EC2 HVM AMI
+date: 2014-08-03 06:01:07.000000000 +02:00
+categories:
+- aws
+- cloud
+- ec2
+- fedora
+- linux
+tags:
+- aws
+- ec2
+- technology
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _wpas_skip_2752212: '1'
+author: 
+---
+<p>In this blog post, I am going to tell you how to setup a Fedora HVM Image from the official Fedora PV Image on Amazon EC2. In general, this basically covers how to convert a PV image into a HVM image for AWS EC2. This works for fedora, but might not work for other OSes.</p>
+<p>I assume you know about <a href="http://aws.amazon.com/" target="_blank">AWS</a>, <a href="http://aws.amazon.com/ec2/" title="EC2" target="_blank">EC2</a>, <a href="http://aws.amazon.com/amazon-linux-ami/" title="AMI" target="_blank">AMI</a>, <a href="http://palakonda.org/2012/10/30/aws-virtualization-hvm-vs-paravirtualization/" target="_blank">HVM and PV</a>. Amazon has been steadily pushing towards using HVM. With the latest round of launches on <a href="http://aws.amazon.com/about-aws/whats-new/2014/07/01/introducing-t2-the-new-low-cost-general-purpose-instance-type-for-amazon-ec2/" target="_blank">July 1, 2014</a>, Amazon now shows only HVM Images by default when you go to launch an instance. You now have to search for PV images. One benefit of using HVM images is better access to underlying hardware resources which gives benefits such as <a href="docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking.html" target="_blank">enhanced networking</a>.</p>
+<p>Fedora has official Amazon AWS EC2 AMIs available at <a href="http://cloud.fedoraproject.org/" title="http://cloud.fedoraproject.org/" target="_blank">http://cloud.fedoraproject.org/</a>. However presently it only has para-virtualized (PV) Images. </p>
+<p>I have been working extensively on AWS EC2 for the last few weeks and have realized that for best performance, we should be using HVM images.</p>
+<p>For this particular project, I was interested in <a href="https://lwn.net/Articles/552904/" title="The multiqueue block layer" target="_blank">the multiqueue block layer</a>, which was introduced in<a href="http://kernelnewbies.org/Linux_3.13#head-3e5f0c2bcebc98efd197e3036dd814eadd62839c" title="Kernel 3.13" target="_blank"> kernel 3.13</a>.</p>
+<p>The first step is to spin up an instance from the existing PV <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html" target="_blank">AMI</a>. Its not completely necessary, since you just need the snapshot of the AMI. However I created an instance as I needed to make some changes to the image. The existing AMI available from Fedora has Kernel 3.10. So, I had to do a yum upgrade to get the latest available kernel 3.15. </p>
+<p>After launching the instance from PV and making changes as per your needs (in my case, sudo yum upgrade -y), create a <a href="http://docs.aws.amazon.com/gettingstarted/latest/wah-linux/getting-started-create-custom-ami.html" target="_blank">new AMI</a> using AWS tools or web console, whatever way you are comfortable with. </p>
+<p>For the rest of the steps, you need to <a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/set-up-ec2-cli-linux.html" target="_blank">setup</a> EC2 <a href="https://aws.amazon.com/developertools/351" target="_blank">API tools</a> or the <a href="http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/Welcome.html" target="_blank">EC2 Command line Tools</a>. I use EC2 CLI Tools.</p>
+<p>After the AMI is ready, find the snapshot id used by the above AMI under EC2 > Elastic Block Store > Snapshot in EC2 Console.</p>
+<p>or if you have the ec2 api tools setup:</p>
+<p>ec2-describe-images ami-id_of_above_created_ami</p>
+<p>and find the snapshot id for the ami. It would be something like snap-a12b34cd .</p>
+<p>Once you have the snapshot id, you can register a new AMI using the above snapshot.</p>
+<p>To register a new HVM AMI using the above snapshot, you need to use the cli/api tools since AWS still doesn't have this in the webconsole (it might come soon).</p>
+<p><code>ec2-register -a x86_64 -d '3.15.7-200.fc20.x86_64' -n 'Fedora_20_HVM_AMI' --sriov simple --virtualization-type hvm -s snap-b44feb18 --root-device-name /dev/sda1<br />
+</code><br />
+where</p>
+<blockquote><p>
+-d is AMI description<br />
+-n is AMI name<br />
+-s is snapshot id from step 3.<br />
+-a is architecture<br />
+--virtualization-type is required for making it hvm<br />
+--sriov is for enabling enhanced networking , though it might be redundant, not sure.</p>
+</blockquote>
+<p>This would register/create a new HVM AMI based on the snapshot created by the PV Image.</p>
+<p>So, in this blog, we discussed how you can convert an existing PV AMI into an HVM AMI, specifically, how to create a fedora HVM AMI from the official PV AMI.</p>
+<p>PS: I have made my Fedora HVM AMI public in the east region. So just search for Fedora and you will find it. Feel free to create AMIs of your own and/or copy it over to other regions.</p>
+<p>PPS: Wanna know which cool place do I work where we end up playing with the state of the art latest technologies, be it kernels or the latest SSDs? Hit over to <a href="http://aerospike.com/careers" target="_blank">http://aerospike.com/careers</a> to join the team!</p>

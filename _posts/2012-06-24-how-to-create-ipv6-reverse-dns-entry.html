@@ -1,0 +1,102 @@
+---
+layout: post
+title: how to create ipv6 reverse DNS entry
+date: 2012-06-24 15:45:41.000000000 +02:00
+categories:
+- ipv6
+- tech
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  geo_latitude: '13.025580'
+  geo_longitude: '77.653110'
+  geo_public: '1'
+author: 
+---
+<p>Lets begin with what all we will be covering in this blog post.<br />
+We will be covering a lil bit of what is a reverse DNS entry and why do we need it.<br />
+We will then cover how to create a reverse DNS entry for two types of ipv6 entries:</p>
+<ol>
+<ol>
+<li>A 6to4 ipv6 ip using our own dns server and a 6to4 nro delegation</li>
+<li>A tunnel broker ipv6 entry using dns provided by he.net</li>
+</ol>
+</ol>
+<p>The <a href="http://en.wikipedia.org/wiki/Reverse_DNS_lookup" target="_blank">reverse DNS</a> look up helps to resolve an ip into the respective host name. It is, like the name says, "reverse" of what the DNS normally do.</p>
+<p>DNS is used to convert a human readable name like "hackalyst.info" into its corresponding ip.</p>
+<p><code><br />
+host hackalyst.info<br />
+hackalyst.info has address 50.57.67.195<br />
+</code></p>
+<p>reverse DNS entry helps to resolve the ip into a hostname.<br />
+<code><br />
+$ host 50.57.67.195<br />
+195.67.57.50.in-addr.arpa domain name pointer hackalyst.info.<br />
+</code></p>
+<p>Now, why is reverse DNS required?</p>
+<p>One of the reasons nicely explained at <a href="http://support.godaddy.com/help/article/2585/what-is-reverse-dns" target="_blank">godaddy</a> is to fight spam.</p>
+<p>Other than that, its always cool to have your ip map to your domain name ;)</p>
+<p>There are two ways of creating a reverse DNS entry for ipv6.<br />
+1) You can create your own DNS server, point your domain name provider to point to your additional DNS.<br />
+2) You can use a free dns service provided by <a href="http://dns.he.net" target="_blank">dns.he.net</a></p>
+<p>Lets first go through the first option which is slightly lengthier and more DYI and CLI friendly :P</p>
+<p>The wikipedia entry on <a href="http://en.wikipedia.org/wiki/6to4" target="_blank">6to4</a> pointed my towards <a href="http://6to4.nro.net/" target="_blank">6to4.nro.net</a> that can be used to create a revese DNS PTR for a 6to4 ip, i.e, an ipv6 starting with 2002:.</p>
+<p>The 6to4.nro.net needs dns servers with zone for this reverse delegation. None of the dns servers I host with (domaincontrol.com through godaddy, stabletransit.com via rackspace and he.net) were accepted in 6to4 form. So I decided to setup my own DNS server.</p>
+<p>First I setup the DNS name for my DNS (yeah, thats required!) at my existing dns provider.<br />
+I am setting up my dns on my own server, hence can simply create sub domains (I used dns1 and dns2 instead of traditional ns1 and ns2) pointing to my own domain. You can create such subdomains pointed to the actual hosts where you will be setting up your DNS. You can set it up on one host or on multiple hosts.</p>
+<p>I setup my own DNS server using instructions from <a href="http://forums.devshed.com/dns-36/bet-you-want-to-setup-a-dns-server-huh-141940.html" target="_blank">devshed forums</a>. Its pretty old but still works. </p>
+<p>At the end of configurating the dns server, I initially got an error saying:<br />
+<code><br />
+_default/67.57.50.in-addr.arpa/IN: file not found<br />
+</code></p>
+<p>That was because the file name in the config and my actual file name were not the same. After I fixed this issue, still named would refuse to start without throwing any erorrs.</p>
+<p>An inspection of /var/log/messages said something about unable to write to the log file.<br />
+<code><br />
+Jun 24 11:58:22 deltacore named[31254]: the working directory is not writable<br />
+Jun 24 11:58:22 deltacore named[31254]: isc_stdio_open 'query.log' failed: permission denied<br />
+Jun 24 11:58:22 deltacore named[31254]: configuring logging: permission denied<br />
+Jun 24 11:58:22 deltacore named[31254]: loading configuration: permission denied<br />
+</code></p>
+<p>The way to fix was to change the ownership of the /var/named folder and /etc/named to named :)</p>
+<p><code><br />
+#chown -R named:named /var/named /etc/named.conf<br />
+</code></p>
+<p>And then all was fine :)</p>
+<p>After setting the above DNS server, I needed to add the PTR info for my ipv6.<br />
+ I found <a href="http://www.fpsn.net/index.cgi?pg=tools&tool=ipv6-inaddr" target="_blank">http://www.fpsn.net/index.cgi?pg=tools&tool=ipv6-inaddr</a> via searching and headed over to create my reverse PTR configuration for my own DNS.</p>
+<p>In the form:<br />
+Record type : select ip6.arpa (new standard)<br />
+Assigned IPv6 Block: (your ipv6 block)<br />
+Admin email:<br />
+DNS Server: (DNS Created above)<br />
+Secondary server (DNS Created above)</p>
+<p>Then it gives the configuration file which you can add to your named.conf and create the reverse zone file.<br />
+Like it says at the end of generated reverse zone file, you need to add the AAAA entry in your respective zone file.</p>
+<p>After this, it was just playing around to add "my" DNS servers to my "Domain" NS entries with my service provider.<br />
+My primary DNS provider is godaddy. I just added my own DNS entries into the NS entry of my domain.</p>
+<p>If you do not want to create your own DNS server (or cannot due to resource crunch), you can use freely available DNS servers from he.net.</p>
+<p>For this second purpose, I am going to use both the 6to4 ip above tied with your domain and another ipv6 obtained through tunnelbroker.</p>
+<p>DNS provided by he.net can be used for managing your domains and these are pretty good in terms of usability.<br />
+Add your domain to your <a href="http://dns.he.net" target="_blank">dns.he.net</a> account, create your A,AAAA and other entries.</p>
+<p>For creating your reverse DNS entry, you need to create the PTR record. Its available under "Additional" menu in dns.he.net.<br />
+For finding out the value of your ipv6 PTR, head over to <a href="http://rdns6.com/nibble" target="_blank">http://rdns6.com/</a> and enter your v6 ip. The nibble value is what basically goes into your PTR record. In dns.he.net, the above nibble would be added as Name in PTR entry and your domain name in the Hostname.</p>
+<p>If you are using a tunnel broker ipv6, you can login to the dns.he.net using same credentials as your tunnelbroker and it would import and delegate the ipv6 provided to you to the he.net nameservers. (I might be wrong here as I ve been using dns.he.net for quite some time and do not remember the initial steps I took).</p>
+<p>Once you ve assigned dns names to your ipv6 ips, you can go and assign those ips and respective domain in the dns.he.net. This creates the PTR record for those ipv6 pointing to your domain. </p>
+<p>at the end of the day, this is what should be the result of a perfectly working PTR record.<br />
+<code><br />
+$ host hackalyst.info<br />
+hackalyst.info has address 50.57.67.195<br />
+hackalyst.info has IPv6 address 2002:3239:43c3::1</p>
+<p>$ host 2002:3239:43c3::1<br />
+1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.3.c.3.4.9.3.2.3.2.0.0.2.ip6.arpa domain name pointer hackalyst.info.</p>
+<p>$ host hackalyst.homeunix.org<br />
+hackalyst.homeunix.org has address 106.51.119.133<br />
+hackalyst.homeunix.org has IPv6 address 2001:470:5:869:21e:c9ff:fe03:803b</p>
+<p>$ host 2001:470:5:869:21e:c9ff:fe03:803b<br />
+b.3.0.8.3.0.e.f.f.f.9.c.e.1.2.0.9.6.8.0.5.0.0.0.0.7.4.0.1.0.0.2.ip6.arpa domain name pointer hackalyst.homeunix.org.<br />
+</code></p>
+<p>So now you know how to create reverse DNS entry aka PTR for your ipv6 :)</p>
+<p>cheers!</p>

@@ -1,0 +1,142 @@
+---
+layout: post
+title: how to add AAAA record (or ipv6 record) to your rackspace dns
+date: 2011-09-25 05:28:55.000000000 +02:00
+categories:
+- ipv6
+- linux
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _oembed_95038df628ea0ef1e18bea4eaad03514: '{{unknown}}'
+  _oembed_e22772af61e870f99c94e01b08713ad3: '{{unknown}}'
+  _oembed_579d10a3e1791e5c6a838fbaa2b785d1: '{{unknown}}'
+  _oembed_7e63b2571c494e7669b22c9dcebb7605: '{{unknown}}'
+  _oembed_85a9a768e5022d2e0b9786a2f9b12240: '{{unknown}}'
+  _oembed_36729f60be8eb30ae75430ba5d62a965: '{{unknown}}'
+  _oembed_777b81b200a9d6cbed8b1635455eeb57: '{{unknown}}'
+  _oembed_ae479a2084764af0641fdec9c0c3fb24: '{{unknown}}'
+  _oembed_744361ef73cd8722e862a78ebfbb524b: '{{unknown}}'
+author: 
+---
+<p>UPDATE: Don't bother setting it up if you are only using the rackspace cloud server. Their DNS doesn't support ipv6 yet and apparently won't propagate the AAAA records yet :! Thats kinda funny since they do have load balancer services on ipv6 now. Waiting on some response/confirmation from Waz mentioned in the post. I ve moved my DNS back to my domain registrator, GoDaddy.</p>
+<p>I was earlier hosting with slicehost and <a href="http://hackalyst.info/2010/02/24/how-to-add-subdomain-in-slicehost-dns/" target="_blank">their dns</a> was a smooth drive when it came to adding any DNS entries.</p>
+<p>I then moved to their parent company rackspace as they had cheaper plans. Slicehost was slated to move to same plans but some time down the year.</p>
+<p>Anyways, after I moved to rackspace, I decided to add the IPv6 domain back to my server. In slicehost it was pretty simple, but in rackspace, oh no!</p>
+<p>The rackspace DNS is still in primitive era. Recently they have announced overhaul of their entire DNS but its yet stuck in the last mile deliverable, i.e, a working GUI.</p>
+<p>Add to that, their "beta" API docs (I didn't know for a while what's in beta, the API or the docs :P ).</p>
+<p>Anyways, my first attempt to use the GUI was faced with continuous failure :!</p>
+<p><img src="images/Screen-shot-2011-09-24-at-3.00.28-PM11.png" alt="rackspaceAAAAfailure" /></p>
+<p>After a quick chat with their customer care, I was pointed to their <a href="http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/supported_record_types.html" target="_blank">DNS API</a>. Apparently AAAA support is not in GUI yet.</p>
+<p>Ok, now lets give it a try.</p>
+<p>Documentation is always a pain, but I guess when your moolah depends upon that, it should be better. Now I am usually pretty good at RTFM, but this time it was simply not happening. Rackspace needs to spruce up that documentation a lot!</p>
+<p>Anyways, now that we are done with a rather length prelude to the actual subject, lets get on the real topic. How to add a AAAA<br />
+record to your rackspace in case the GUI is failing.</p>
+<p>First, you'll need a firefox plugin called <a href="https://addons.mozilla.org/en-US/firefox/addon/restclient/" target="_blank">restclient</a>. That's cause the return error messages from rackspace are quite uninformative and it becomes difficult to change your curl command or php script based on a vague 403 or a 500.</p>
+<p>First step:</p>
+<p>Get your rackspace API Key.<br />
+For this, you first need to login to your rackspace account and get the API key. Its located under "Your account" section</p>
+<p><a href="http://hackalyst.info/wp-content/uploads/2011/09/apiaccess11.png"><img class="alignnone size-medium wp-image-304" title="Rackspace API access" src="images/apiaccess1-300x220.png" alt="" width="300" height="220" /></a></p>
+<p>Click on Show Key to show your key. Or you can generate a new API key on that page using Generate new key.</p>
+<p>Second step:<br />
+Get an authetication token.<br />
+Now getting the API key is half the part of getting your authentication token. Your API key is not your authentication token.<br />
+You use the API key to generate your Authentication token using the rackspace REST webservices.</p>
+<p>The Rackspace authentication webservices accepts the parameters using headers only. And sends the output also in headers.</p>
+<p>Before we get the token, you need to findout if you are a US user or a UK user :!</p>
+<p>quoting the <a href="http://docs.rackspace.com/cdns/api/v1.0/cdns-devguide/content/Authentication-d1e647.html" target="_blank">API doc</a></p>
+<blockquote><p>To access the Authentication Service, you must know whether your account is US-based or UK-based:</p>
+<p>US-based accounts authenticate through https://auth.api.rackspacecloud.com/v1.0.</p>
+<p>UK-based accounts authenticate through https://lon.auth.api.rackspacecloud.com/v1.0.</p>
+<p>Your account may be based in either the US or the UK; this is not determined by your physical location but by the location of the Rackspace retail site which was used to create your account:</p>
+<p>If your account was created via http://www.rackspacecloud.com, it is a US-based account.</p>
+<p>If your account was created via http:/www.rackspace.co.uk, it is a UK-based account.</p></blockquote>
+<p>Once you ve found your endpoint, (mine is US), you can start to get your Auth token.</p>
+<p>A simple way for those familiar with command line is to use curl:<br />
+<code><br />
+curl -I -H 'X-Auth-User:yourRackspaceLogin' -H 'X-Auth-Key:YOUR-API-KEY-HERE' 'https://auth.api.rackspacecloud.com/v1.0'<br />
+</code></p>
+<p>If you are a UK customer, the respective DNS API endpoint for UK is:<br />
+<code><br />
+https://lon.dns.api.rackspacecloud.com/v1.0/<br />
+</code><br />
+Or for those not aware of it, you can use the firefox plugin we installed earlier.</p>
+<p>Open the plugin from the tools menu under firefox. I am on mac. So choose the respective menu for your platform.</p>
+<p>Select the RestClient.</p>
+<p>Select GET method. Put the url as your endpoint that you found above. Click on Add Header<br />
+<a href="http://hackalyst.info/wp-content/uploads/2011/09/addHeader11.png"><img class="alignnone size-full wp-image-310" title="addHeader" src="images/addHeader11.png" alt="" width="1003" height="230" /></a></p>
+<p>Name - X-Auth-User<br />
+Value - yourRackspaceLogin</p>
+<p>Add another header<br />
+Name - X-Auth-Key<br />
+Value - YOUR-API-KEY</p>
+<p>After adding these two header, hit send, and if all goes fine, you should get a green (204) response.</p>
+<p>A <a href="http://en.wikipedia.org/wiki/HTTP_204#2xx_Success" target="_blank">http 204</a> response means that the server successfully processed the request, but is not returning any content. Like I said earlier, this part of transaction, i.e, getting the auth token is done entirely using headers only.</p>
+<p>The output for curl method would be something like this:</p>
+<p><code>HTTP/1.1 204 No Content<br />
+Server: Apache/2.2.13 (Red Hat)<br />
+vary: X-Auth-Token,X-Auth-Key,X-Storage-User,X-Storage-Pass<br />
+X-Storage-Url: https://storage101.ord1.clouddrive.com/v1/MossoCloudFS_s0m34rb17v4lu3<br />
+Cache-Control: s-maxage=17404<br />
+Content-Type: text/xml<br />
+Date: Sun, 25 Sep 2011 04:14:17 GMT<br />
+X-Auth-Token: THIS-IS-YOUR-AUTH-TOKEN<br />
+X-Server-Management-Url: https://servers.api.rackspacecloud.com/v1.0/588177<br />
+X-Storage-Token: THIS-IS-YOUR-AUTH-TOKEN<br />
+Connection: Keep-Alive<br />
+X-CDN-Management-Url: https://cdn2.clouddrive.com/v1/MossoCloudFS_s0m34rb17v4lu3<br />
+</code></p>
+<p>The value for both X-Auth-Token and X-Storage-Token are same, so nothing to worry about about duplicates.</p>
+<p>Notice the "588177" in the X-Server-Managerment-Url above. Make a note of your corresponding value. This is your server id that you'll need in further DNS API calls as well. We will call it YOUR_SERVER_ID for the purpose of rest of this blog.</p>
+<p>Third Step:<br />
+Get the Domain ID</p>
+<p>Now we need to get the Domain ID of your domain tied to your server. I had two domains listed with my server. You can have one or multiple such domains listed with your server.</p>
+<p>The curl command would be:<br />
+<code><br />
+curl -H 'X-Auth-Token:YOUR-AUTH-TOKEN' 'https://dns.api.rackspacecloud.com/v1.0/YOUR_SERVER_ID/domains/'<br />
+</code></p>
+<p>Output is something like:<br />
+<code><br />
+{"domains":[{"name":"anshprat.info","id":2791520,"accountId":588177,"updated":"2011-05-17T13:14:33.000+0000",<br />
+"created":"2011-05-17T13:08:13.000+0000"},{"name":"hackalyst.info","id":2791406,"accountId":588177,"updated":"2011-09-24T14:57:39.000+0000",<br />
+"created":"2011-05-17T10:10:57.000+0000"}],"totalEntries":2}</code></p>
+<p>You can do the same using the RestClient. Find the url in the curl command above , and change the header to that under -H.</p>
+<p>The "id" part in the output is the one that we need. We will call it YOUR_DOMAIN_ID for the purpose of rest of this blog.</p>
+<p>Once you ve the id, you are ready to create the records. This is the place where I used RestClient the most. As the curl errors were random and so not descriptive. Ranging from<br />
+<code><br />
+Warning: You can only select one HTTP request!<br />
+</code><br />
+which I think was some issue with the curl format of payload or combination of options to the usual 500 :!</p>
+<p>Fourth and Final step:</p>
+<p>Lets create the AAAA DNS record!</p>
+<p>Ok, so to create the records, the required info can be put using XML or JSON. I used JSON.</p>
+<p>The url is<br />
+<code><br />
+https://dns.api.rackspacecloud.com/v1.0/YOUR_ACCOUNT_ID/domains/YOUR_DOMAIN_ID/records</code></p>
+<p>change the format to POST.</p>
+<p>And to add a AAAA record, create a JSON payload like this:<br />
+<code><br />
+{<br />
+"records" : [ { "name" : "ipv6.hackalyst.info", "type" : "AAAA", "data" : "2001:470:1f06:b8c::2"<br />
+}, { "name" : "ipv6.hackalyst.info", "type" : "NS", "data" : "dns1.stabletransit.com", "ttl" : 3600<br />
+}, { "name" : "ipv6.hackalyst.info", "type" : "NS", "data" : "dns2.stabletransit.com", "ttl" : 3600<br />
+}]<br />
+}</code></p>
+<p>Change the ipv6.hackalyst.info with your domain/subdomain requirements and the data to your required ipv6. Let the NS data as it is. (I assume you want to add it to your rackspace dns.)</p>
+<p>Put the above JSON payload in the Request Body of the RestClient. I had removed the newlines in the actual JSON. Please put your entire JSON in a single line if you face any issues.</p>
+<p>And click Send.</p>
+<p>Hopefully you should get a GREEN 204 response. This is a asynchronous request to the DNS API. So you can check the status of your this request using the url:<br />
+<code><br />
+https://dns.api.rackspacecloud.com/v1.0/YOUR_SERVER_ID/status<br />
+</code></p>
+<p>Remember, every call to the rackspace DNS API need to include the X-Auth-Token header.</p>
+<p>Default output/input format is JSON. XML is also available. Please read up the Doc on how to get XML, I didn't try it.</p>
+<p>I hope this works for most of you who need it. Leave a comment if you face any issues. Would be great if someone can provide curl requests for delivering the JSON/XML payload in the POST request!</p>
+<p>Before I end the post, I should mention my other attempts of getting the help from the rackspace guys.</p>
+<p>I <a href="http://twitpic.com/6pqiw3" target="_blank">posted a pic</a> to my twitpic account while I contacted the rackspace live chat for the first time. I had put this pic up there as a quick way of sharing it with the customer care person.</p>
+<p>Couple of hours later, when I went back to twitter to complain about my failure to create the AAAA record, I found that @rackspace <a href="https://twitter.com/rackspace/status/117589788374216704" target="_blank">had replied</a> with a support email address. twitter at rackspace dot com.</p>
+<p>I immediately sent a mail to the aforesaid mail, to which I got a reply. I had already found the RestClient API and managed to get the records added. Had a pleasant conversation with <a href="http://twitter.com/jwazdet" target="_blank">"Waz"</a>, a rackspace engineer or a racker! Raised a ticket about GUI visibility about visibility of the records added through API. Got the response that the AAAA and TXT records dont show up in the GUI yet. These will be visible when the new DNS GUI is generally available.</p>
+<p>So overall, a pleasant experience. Looking forward to native ipv6 support soon!</p>

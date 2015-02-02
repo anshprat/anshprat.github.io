@@ -1,0 +1,76 @@
+---
+layout: post
+title: Setting up your website/blog using wordpress on a slicehost slice!
+date: 2010-02-17 18:20:44.000000000 +01:00
+categories:
+- linux
+- tech
+tags:
+- blog
+- linux
+- tech
+- web2.0
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author: 
+---
+<p>Hi,<br />
+Let me tell you what all am I gonna tell you in this blog today.<br />
+I am going to share my experience of buying my first domain, my first webhost and setting up a wordpress blog on it. This will be a beginners guide to setup these services on slicehost. Also how to enable pretty urls on it.<br />
+The first step is deciding upon your domain name. There are various <a href="http://en.wikipedia.org/wiki/Domain_name_registrar" target="_blank">domain registrars</a> on the net. I chose <a href="http://godaddy.com" target="_blank">Go Daddy</a> because of it being a well known name in the business. The previous domain registrar I had dealt with for a college related domain seems to have shut shop these days. Anyways, go to <a href="http://godaddy.com" target="_blank">Go Daddy</a> and search for your preferred domain name under your preferred <a href="http://en.wikipedia.org/wiki/Tld" target="_blank">TLD or Top Level Domain. The last part in a websites <a href="http://en.wikipedia.org/wiki/Url" target="_blank">URL</a> is the TLD. I chose .info as my TLD, cost being the primary reason. As of today, .info domains are available for about $1.07, about INR 50/- only. The more common TLDs like .com retail for a minimum of Rs.200-300 INR. I chose anshprat.info. It was available.     GoDaddy quotes it as $0.89, but with <a href="http://en.wikipedia.org/wiki/Icann" target="_blank">ICANN</a>( Internet Corporation for Assigned Names and Numbers) registration charges and taxes, it comes upto $1.09. You can buy it then and there using credit card. Godaddy also provides webhosting solutions but I was interested in a webhosting solutin that will give me a root terminal. This is available only in cloud webhostings and <a href="http://en.wikipedia.org/wiki/Virtual_private_server" target="_blank">VPS</a>.A virtual private server (VPS, also referred to as Virtual Dedicated Server or VDS) is a method of splitting a server. Each virtual server can run its own full-fledged operating system, and each server can be independently rebooted.<br />
+So after I was done with my domain name, it was time to buy a webhost. I had already shortlisted slicehost after much discussion and debate. In between I had veered towards the cloud offering from <a href="http://www.rackspacecloud.com/" target="_blank">Rackspace </a>, the parent company of slicehost. It was cheaper except that the $5 something cost was exclusive of bandwidth charges. The Slicehost 256 slice offers you 256MB RAM,    10GB storage, 100GB bandwidth at a cost of $20 per month. Buying it and creating the first slice is very simple. Its a very simple click next, accept terms and conditions, fill your details, choose the distro to be installed on the slice, and you are done! Slicehost <a href="http://www.slicehost.com/questions/#distros" target="_blank">offers a multitude</a> of <a href="http://en.wikipedia.org/wiki/Linux_distribution" target="_blank">distros.</a> I chose <a href="http://docs.fedoraproject.org/release-notes/f12/" target="_blank">Fedora 12</a> and the total space for installation was some 700 MB.</p>
+<p>Now I need to associate my domain name to my slicehost slice. When you type in anshprat.info in your browser, the Internet should bring you to my new web home right? GoDaddy provides for DNS solution using <a href="http://help.godaddy.com/article/681" target="_blank">Total DNS</a> I just need to change my ip address listed in there to the slicehost ip. All these details (ip etall) are provided to you and mailed to your email while setting up the slice.<br />
+To configure your ip in the TotalDNS, login to your godaddy account. Go to My Account. Click on advanced details next to your domain name. You ll see a dashboard with lots of information. Click on Total DNS Control. Here you can edit the ip address next to @ in A name records to your slicehost ip. If you want to add a subdomain (blog.anshprat.info), just add a new A name record as blog. (note the . after blog) in the zone file.</p>
+<p>The default installation of fedora on slicehost did not have a apache server or php or mysql.</p>
+<p>do the following:<br />
+su<br />
+(root password)<br />
+yum install apache mysql mysql-server phpmyadmin</p>
+<p>This should take care of that.<br />
+to start apache on fedora: service httpd start<br />
+to start mysql server: service mysqld start<br />
+you need to change the root password of mysql.<br />
+The first start of mysql will tell you how to change the mysql root password. If you are not comfortable with mysql commandline, use phpmyadmin to change the root password and delete the other users with global select privileges.</p>
+<p><a name="howto"></a><br />
+To access phpmyadmin in browser, you need to change<br />
+<Directory /usr/share/phpMyAdmin/><br />
+order deny,allow<br />
+deny from none<br />
+allow from all</p>
+<p>in /etc/httpd/conf.d/phpMyAdmin.conf</p>
+<p>Also, iptables/firewall is enabled by default. You can either configure it or completely turn it off.<br />
+service iptables stop<br />
+chkcofig iptables off (to disable it from starting on reboot).</p>
+<p>if you want to stat httpd/apache and mysql on reboot by themselves,<br />
+run the following command.<br />
+chkconfig mysqld on<br />
+chkconfig httpd on</p>
+<p>Now to setup a new wordpress installation. Create your mysql db, username and password. (you can use phpmyadmin).<br />
+Download <a href="http://wordpress.org/download/" target="_blank">wordpress</a>.<br />
+do these as root. (su)<br />
+unzip/untar and put it in your document root (/var/www/html).<br />
+cd /var/www/html<br />
+chown -R apache:apache *</p>
+<p>Now you can access your wordpress from your domain name in browser.<br />
+The install should be pretty simple.</p>
+<p><strong>How to configure pretty url in wordpress.</strong></p>
+<p>To enable pretty url in your wordpress, you need to add a lil to your httpd.conf</p>
+<p>You need to change</p>
+<p>AllowOverride FileInfo</p>
+<p>in your <Directory /var/www/html> directive in httpd.conf found in /etc/httpd/conf folder.</p>
+<p>Restart apache.</p>
+<p>service httpd restart.</p>
+<p>Then login to your wordpress install.<br />
+Go to Settings -> Permalinks in the right hand menu bar.<br />
+Change the settings from default to anyother of your choice. I prefer Day and Name.</p>
+<p>Phew! That was a long post!</p>
+<p>So what all did I tell you?<br />
+I told you how to buy a domain from godaddy.com<br />
+How to get a slice from slicehost.com<br />
+How to point your domain name to your slice ip in your GoDaddy TotalDNS.<br />
+How to install apache, mysql and phpmyadmin in fedora in slicehost.<br />
+How to install wordpress on slicehost.<br />
+And how to configure pretty url on wordpress!</a></p>

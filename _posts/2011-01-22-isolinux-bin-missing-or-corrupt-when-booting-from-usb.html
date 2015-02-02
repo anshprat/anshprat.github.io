@@ -1,0 +1,28 @@
+---
+layout: post
+title: '"Isolinux.bin missing or corrupt" when booting from USB'
+date: 2011-01-22 10:43:44.000000000 +01:00
+categories:
+- linux
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wp_old_slug: ''
+author: 
+---
+<p>I was trying it out to boot from USB using fedora for a friends laptop. On booting I saw the above error.</p>
+<p>And found the answer at:</p>
+<p><a href="http://chakra-project.org/bbs/viewtopic.php?pid=15015" target="_blank">http://chakra-project.org/bbs/viewtopic.php?pid=15013#p15013</a></p>
+<p><code>dd if=[name of iso] of=/dev/sdc<br />
+</code><br />
+NOT /dev/sdc1  and before removing the usb stick type into terminal:</p>
+<p><code><br />
+sync<br />
+eject /dev/sdc<br />
+</code></p>
+<p>sdc being whatever your usb stick device is<br />
+this will ensure that all the data is written to the stick before removal.</p>
+<p>Voila! It worked. Like the next comment says in the above post, indeed, so stupid of me :P</p>

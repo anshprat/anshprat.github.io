@@ -1,0 +1,74 @@
+---
+layout: post
+title: Linkedin down?
+date: 2014-09-28 21:32:15.000000000 +02:00
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _publicize_twitter_user: '@anshprat'
+author: 
+---
+<p>Looks like @ Sun Sep 28 21:27:08 UTC 2014 , Linkedin is down on the web with infinite redirect loop. The problem exists both while logged in and non-logged in.</p>
+<p>Going by the looks of it, a new home deployment might have caused a faulty redirect. Surprisingly I dont see any other reports on twitter at this time for a linkedin failure. Is it just me?</p>
+<p>&nbsp;</p>
+<p><a href="http://hackalyst.info/wp-content/uploads/2014/09/Screen-Shot-2014-09-29-at-2.59.49-AM.png"><img class="alignnone size-full wp-image-412" src="images/Screen-Shot-2014-09-29-at-2.59.49-AM.png" alt="Screen Shot 2014-09-29 at 2.59.49 AM" width="1324" height="533" /></a></p>
+<blockquote><p>Anshu-MacBook-Pro:~ anshup$ curl -I -L -s https://www.linkedin.com/<br />
+HTTP/1.1 301 Moved Permanently<br />
+Server: Apache-Coyote/1.1<br />
+P3P: CP="CAO CUR ADM DEV PSA PSD OUR"<br />
+Location: https://www.linkedin.com<br />
+Content-Language: en-US<br />
+Content-Length: 0<br />
+Vary: Accept-Encoding<br />
+Date: Sun, 28 Sep 2014 21:29:06 GMT<br />
+X-FS-UUID: 18019603b8379813f0ea79a8782b0000<br />
+X-LI-UUID: GAGWA7g3mBPw6nmoeCsAAA==<br />
+X-Li-Fabric: prod-lva1<br />
+Set-Cookie: _lipt=deleteMe; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/<br />
+Set-Cookie: leo_auth_token="GST:UvElobHw83UX24kTRj2lklHVoQQXXlf0Rt2k8itBKk8GG3AQzMhbhP:1411939746:245dd3572340239e71357eef1895a64caf71ab98"; Version=1; Max-Age=1799; Expires=Sun, 28-Sep-2014 21:59:05 GMT; Path=/<br />
+Set-Cookie: sl="delete me"; Version=1; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/<br />
+Set-Cookie: sl="delete me"; Version=1; Domain=.www.linkedin.com; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/<br />
+Set-Cookie: s_leo_auth_token="delete me"; Version=1; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/<br />
+Set-Cookie: JSESSIONID="ajax:3378763733454792746"; Version=1; Domain=.www.linkedin.com; Path=/<br />
+Set-Cookie: visit="v=1&amp;G"; Version=1; Max-Age=63072000; Expires=Tue, 27-Sep-2016 21:29:06 GMT; Path=/<br />
+Set-Cookie: lang="v=2&amp;lang=en-us"; Version=1; Domain=linkedin.com; Path=/<br />
+Set-Cookie: lang="v=2&amp;lang=en-us"; Version=1; Domain=linkedin.com; Path=/<br />
+Set-Cookie: bcookie="v=2&amp;71ea2c02-5df9-45f7-8db5-5d24119e31f2"; domain=.linkedin.com; Path=/; Expires=Wed, 28-Sep-2016 09:06:38 GMT<br />
+Pragma: no-cache<br />
+Expires: Thu, 01 Jan 1970 00:00:00 GMT<br />
+Cache-Control: no-cache, no-store<br />
+Connection: keep-alive<br />
+X-Li-Pop: PROD-IDB2<br />
+Set-Cookie: lidc="b=VB78:g=109:u=1:i=1411939746:t=1412026146:s=3048875758"; Expires=Mon, 29 Sep 2014 21:29:06 GMT; domain=.linkedin.com; Path=/</p>
+<p>HTTP/1.1 301 Moved Permanently<br />
+Server: Apache-Coyote/1.1<br />
+P3P: CP="CAO CUR ADM DEV PSA PSD OUR"<br />
+Location: https://www.linkedin.com<br />
+Content-Language: en-US<br />
+Content-Length: 0<br />
+Vary: Accept-Encoding<br />
+Date: Sun, 28 Sep 2014 21:29:07 GMT<br />
+X-FS-UUID: 928ba61ab8379813e0dba9dcca2a0000<br />
+X-LI-UUID: koumGrg3mBPg26ncyioAAA==<br />
+X-Li-Fabric: prod-lva1<br />
+Set-Cookie: _lipt=deleteMe; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/<br />
+Set-Cookie: leo_auth_token="GST:UicjR0NBQqxraRmVAJE3SkdicNoyfQnr54E9IJoJMVdMn8mYU3pN9c:1411939747:93cea2e9d32d7f3b4c65a4a754d58ec46ee426f0"; Version=1; Max-Age=1799; Expires=Sun, 28-Sep-2014 21:59:06 GMT; Path=/<br />
+Set-Cookie: sl="delete me"; Version=1; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/<br />
+Set-Cookie: sl="delete me"; Version=1; Domain=.www.linkedin.com; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/<br />
+Set-Cookie: s_leo_auth_token="delete me"; Version=1; Max-Age=0; Expires=Thu, 01-Jan-1970 00:00:10 GMT; Path=/<br />
+Set-Cookie: JSESSIONID="ajax:7472706816298936279"; Version=1; Domain=.www.linkedin.com; Path=/<br />
+Set-Cookie: visit="v=1&amp;G"; Version=1; Max-Age=63072000; Expires=Tue, 27-Sep-2016 21:29:07 GMT; Path=/<br />
+Set-Cookie: lang="v=2&amp;lang=en-us"; Version=1; Domain=linkedin.com; Path=/<br />
+Set-Cookie: lang="v=2&amp;lang=en-us"; Version=1; Domain=linkedin.com; Path=/<br />
+Set-Cookie: bcookie="v=2&amp;de6e7146-727b-4c72-82fd-c0c5b062d0b3"; domain=.linkedin.com; Path=/; Expires=Wed, 28-Sep-2016 09:06:39 GMT<br />
+Pragma: no-cache<br />
+Expires: Thu, 01 Jan 1970 00:00:00 GMT<br />
+Cache-Control: no-cache, no-store<br />
+Connection: keep-alive<br />
+X-Li-Pop: PROD-IDB2<br />
+Set-Cookie: lidc="b=VB78:g=109:u=1:i=1411939747:t=1412026147:s=3097703888"; Expires=Mon, 29 Sep 2014 21:29:07 GMT; domain=.linkedin.com; Path=/</p></blockquote>

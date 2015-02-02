@@ -1,0 +1,34 @@
+---
+layout: post
+title: how to get ipv6 connection in India
+date: 2011-09-27 02:02:38.000000000 +02:00
+categories:
+- ipv6
+- tech
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _oembed_4985d01503d03d6584e2116d387f054b: '{{unknown}}'
+  _oembed_5f64b07567c57936e4a5b2015e0e72ce: '{{unknown}}'
+  _oembed_6f55990d5dfcdf452844e369ab002c79: '{{unknown}}'
+author: 
+---
+<p>It is possible to get <a href="http://en.wikipedia.org/wiki/IPv6" target="_blank">ipv6</a> connection in India using tunneling (ipv6 over ipv4). There are multiple providers, but <a href="http://he.net/" target="_blank">he.net</a> is one of the simplest ones to use and setup. And its for free! You can set upto 5 tunnels with every free account. You'll mostly need one or two maximum as each tunnel needs a valid ipv4 ip on your end.</p>
+<p>To set a free tunnel, head over to the <a href="www.tunnelbroker.net" target="_blank">tunnel broker</a> site of he.net.</p>
+<p>Register a new account. After successful registration (and confirmation), login, click on "create a regular tunnel" under user functions, provide your ipv4 address and voila (usually its the same as "You are vieweing from" that is shown under the text box for "IPv4 endpoint (your side)" and you are ready to go!</p>
+<p>If you want to use google services over ipv6, I suggest you use one of the US endpoints of the tunnel, as it looks like google has whitelisted the US endpoints. The Asian endpoints dont ve access to google and facebook over ipv6.</p>
+<p>Once you ve created your tunnel, you need to setup your system. I ve tried it on linux, mac and airport extreme. The example configuration showed in the tunnel page (once created) works pretty well for all that I tried. Most of them need you to copy paste the commands given in a command line terminal.</p>
+<p>Once you are done with all the above, comes the most important part. Adding the DNS! Even if you ve a fully functional tunnel, you wont be able to browse or use it unless you ve the DNS configured for ipv6. </p>
+<p>In your version of OS, configure the DNS for he.net</p>
+<p><code>2001:470:1f06:b8c::2<br />
+</code></p>
+<p>Check it up online how to configure a nameserver/dns for your OS.</p>
+<p>If you ve a airtel connection, or other ISPs which result in you ving different ips, no worries. You can update your tunnel endpoint (i.e, your ip) in the tunnel configuration easily. Either using the web UI by logging into the tunnelbroker.net site, or using APIs available at <a href="http://ipv4.tunnelbroker.net/ipv4_end.php" target="_blank">http://ipv4.tunnelbroker.net/ipv4_end.php</a></p>
+<p>Usage: https://ipv4.tunnelbroker.net/ipv4_end.php?ip=IPV4ADDR&pass=MD5PASS&apikey=USERID&tid=TUNNELID<br />
+ -or-: https://USERNAME:PASSWORD@ipv4.tunnelbroker.net/ipv4_end.php?tid=TUNNELID (auto-detect IP)<br />
+       https://USERNAME:PASSWORD@ipv4.tunnelbroker.net/ipv4_end.php?tid=TUNNELID&ip=IPV4ADDR</p>
+<p>Let me know if you need more help with setting up your ipv6 tunnel!</p>
+<p>My home network and my blog both are now on ipv6, thanks to the tunnels provided by he.net!</p>

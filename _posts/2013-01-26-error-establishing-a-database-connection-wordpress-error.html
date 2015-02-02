@@ -1,0 +1,89 @@
+---
+layout: post
+title: Error establishing a database connection - Wordpress Error
+date: 2013-01-26 15:38:09.000000000 +01:00
+categories: []
+tags:
+- wordpress
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+author: 
+---
+<p>Well, for the last few weeks I ve been seeing this error quite often on my blog. I didn't think of it much initially as it used to go away on a mysql restart. However, today I ran into it and was persistent after mysql restarts. So I started digging a bit more and enabled debugging in wp-config</p>
+<p><code><br />
+in wp-config.php</code></p>
+<p>define('WP_DEBUG', true);<br />
+define('WP_DEBUG_DISPLAY', true);</p>
+<p>This didn't show any error that could help me. I could ve tried enabling further logging in apache to see if that helps</p>
+<p><a href="http://codex.wordpress.org/Editing_wp-config.php#Configure_Error_Log" target="_blank">http://codex.wordpress.org/Editing_wp-config.php#Configure_Error_Log</a></p>
+<p>I had tried logging into mysql with the username and password configured in the wordpress config and it worked fine. So I knew those were fine and mysql was running fine. I even restarted httpd a few times to confirm, but it didnt help either.</p>
+<p>Then I checked up the mysqld log and voila!</p>
+<p>&nbsp;</p>
+<p>101:130113 10:15:33 InnoDB: Database was not shut down normally!<br />
+116:130113 16:37:34 InnoDB: Database was not shut down normally!<br />
+131:130113 16:39:16 InnoDB: Database was not shut down normally!<br />
+146:130113 16:42:20 InnoDB: Database was not shut down normally!<br />
+158:130113 16:45:05 InnoDB: Database was not shut down normally!</p>
+<p>130113 10:15:32 mysqld_safe Starting mysqld daemon with databases from /var/lib/mysql<br />
+130113 10:15:33 InnoDB: Initializing buffer pool, size = 8.0M<br />
+130113 10:15:33 InnoDB: Completed initialization of buffer pool<br />
+InnoDB: The log sequence number in ibdata files does not match<br />
+InnoDB: the log sequence number in the ib_logfiles!<br />
+130113 10:15:33 InnoDB: Database was not shut down normally!<br />
+InnoDB: Starting crash recovery.<br />
+InnoDB: Reading tablespace information from the .ibd files...<br />
+InnoDB: Restoring possible half-written data pages from the doublewrite<br />
+InnoDB: buffer...<br />
+130113 10:15:33 InnoDB: Started; log sequence number 0 1049991<br />
+130113 10:15:33 [Note] Event Scheduler: Loaded 0 events<br />
+130113 10:15:33 [Note] /usr/libexec/mysqld: ready for connections.<br />
+Version: '5.1.56' socket: '/var/lib/mysql/mysql.sock' port: 3306 Source distribution<br />
+130113 16:37:04 mysqld_safe Number of processes running now: 0<br />
+130113 16:37:04 mysqld_safe mysqld restarted<br />
+130113 16:37:29 InnoDB: Initializing buffer pool, size = 8.0M<br />
+130113 16:37:30 InnoDB: Completed initialization of buffer pool<br />
+InnoDB: The log sequence number in ibdata files does not match<br />
+InnoDB: the log sequence number in the ib_logfiles!<br />
+130113 16:37:34 InnoDB: Database was not shut down normally!</p>
+<p>Version: '5.1.56' socket: '/var/lib/mysql/mysql.sock' port: 3306 Source distribution<br />
+130124 20:22:26 [ERROR] /usr/libexec/mysqld: Incorrect key file for table './wp_options.MYI'; try to repair it<br />
+130124 20:22:26 [ERROR] /usr/libexec/mysqld: Incorrect key file for table './wp_options.MYI'; try to repair it<br />
+130124 20:25:00 [ERROR] /usr/libexec/mysqld: Incorrect key file for table './wp_options.MYI'; try to repair it<br />
+130124 20:25:00 [ERROR] /usr/libexec/mysqld: Incorrect key file for table './wp_options.MYI'; try to repair it<br />
+130124 20:33:04 [ERROR] /usr/libexec/mysqld: Incorrect key file for table './wp_options.MYI'; try to repair it<br />
+130124 20:33:05 [ERROR] /usr/libexec/mysqld: Incorrect key file for table './wp_options.MYI'; try to repair it<br />
+130124 20:33:05 [ERROR] /usr/libexec/mysqld: Incorrect key file for table './wp_options.MYI'; try to repair it<br />
+130124 20:34:44 mysqld_safe Number of processes running now: 0<br />
+130124 20:34:44 mysqld_safe mysqld restarted<br />
+130124 20:34:47 InnoDB: Initializing buffer pool, size = 8.0M<br />
+130124 20:34:47 InnoDB: Completed initialization of buffer pool<br />
+InnoDB: The log sequence number in ibdata files does not match<br />
+InnoDB: the log sequence number in the ib_logfiles!<br />
+130124 20:34:48 InnoDB: Database was not shut down normally!<br />
+InnoDB: Starting crash recovery.<br />
+InnoDB: Reading tablespace information from the .ibd files...<br />
+InnoDB: Restoring possible half-written data pages from the doublewrite<br />
+InnoDB: buffer...<br />
+130124 20:34:48 InnoDB: Started; log sequence number 0 1049991<br />
+130124 20:34:48 [Note] Event Scheduler: Loaded 0 events<br />
+130124 20:34:48 [Note] /usr/libexec/mysqld: ready for connections.<br />
+Version: '5.1.56' socket: '/var/lib/mysql/mysql.sock' port: 3306 Source distribution<br />
+130124 20:34:59 [ERROR] /usr/libexec/mysqld: Table './wp_options' is marked as crashed and should be repaired<br />
+130124 20:34:59 [ERROR] /usr/libexec/mysqld: Table './wp_options' is marked as crashed and should be repaired<br />
+130124 20:34:59 [ERROR] /usr/libexec/mysqld: Table './wp_options' is marked as crashed and should be repaired<br />
+130124 20:34:59 [ERROR] /usr/libexec/mysqld: Table './wp_options' is marked as crashed and should be repaired<br />
+130124 20:34:59 [ERROR] /usr/libexec/mysqld: Table './wp_options' is marked as crashed and should be repaired<br />
+130124 20:34:59 [ERROR] /usr/libexec/mysqld: Table './wp_options' is marked as crashed and should be repaired<br />
+130124 20:35:06 [ERROR] /usr/libexec/mysqld: Table './wp_options' is marked as crashed and should be repaired<br />
+130124 20:35:06 [ERROR] /usr/libexec/mysqld: Table './wp_options' is marked as crashed and should be repaired</p>
+<p>So looks like this is what was causing my recent problems.</p>
+<p>Once I saw this in the mysql logs, it was a simple fix:</p>
+<p><code><br />
+mysql&gt; repair table wp_options;</code></p>
+<p>Found 231 of 230 rows when repairing wp_options</p>
+<p>&nbsp;</p>
+<p>And so far its all been good after that :)</p>

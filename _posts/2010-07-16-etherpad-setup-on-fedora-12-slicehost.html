@@ -1,0 +1,37 @@
+---
+layout: post
+title: Etherpad setup on Fedora 12 slicehost.
+date: 2010-07-16 19:34:25.000000000 +02:00
+categories:
+- blog
+- linux
+tags:
+- etherpad
+- linux
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wp_old_slug: ''
+  _oembed_e96c004bffe67d599df5e1b59ed5b968: '{{unknown}}'
+  _oembed_c0158bc48f6e58d112425eade5ca012c: '{{unknown}}'
+  _oembed_25f1766548c43c4a5efd916c3d30f108: '{{unknown}}'
+  _oembed_4902da9100de62cf49b170b41e9088d8: '{{unknown}}'
+author: 
+---
+<p>I ve been trying to setup etherpad on my slicehost slice running fedora. I managed to get all the dependencies fulfilled yet it would fail compiling. (I let it run for 36+ hours and then did Ctrl+C when I realised its not really working.) Then I came across the newly released rpm for fedora 12:<br />
+<a href="http://sdz.fedorapeople.org/etherpad/"><br />
+http://sdz.fedorapeople.org/etherpad/</a></p>
+<p>This still is buggy. For example, </p>
+<p><code>[root@deltacore etherpad-0]# etherpad-rebuildjar.sh<br />
+/usr/bin/etherpad-rebuildjar.sh: line 32: ../infrastructure/bin/compilecache.sh: No such file or directory<br />
+</code></p>
+<p>Ofcourse, because the original script has just been moved to /usr/bin without even changing the source :!</p>
+<p>Anyways, I just tried running the etherpad server and thats when I got my major roadblock :!</p>
+<p><code>[root@deltacore etherpad-0]# etherpad-run-local.sh<br />
+Using config file: /etc/etherpad.localdev-default.properties<br />
+Error occurred during initialization of VM<br />
+Could not reserve enough space for object heap<br />
+</code><br />
+So next, I am gonna run it on my private server with better memory and see how it works.</p>

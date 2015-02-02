@@ -1,0 +1,33 @@
+---
+layout: post
+title: slicehost setup mysql beginners guide
+date: 2010-02-22 21:07:39.000000000 +01:00
+categories:
+- linux
+- tech
+- web2.0
+tags:
+- howto
+- lamp
+- linux
+- slicehost
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author: 
+---
+<p>Ok, so first and foremost about the heading. Its a direct search term that I got on this blog. I realised that even though I answered the query in<a href="http://anshprat.info/2010/02/17/setting-up-your-websiteblog-using-wordpress-on-a-slicehost-slice/"> this post</a>, the user actually never got to see it. My bad!</p>
+<p>Ok, assumption 1: You are using Fedora as your server distro. If you are using some other distro, please modify the yum commands as per your distro.<br />
+These steps can rather be used to set up a working <a href="http://en.wikipedia.org/wiki/LAMP_(software_bundle)" target="_blank">LAMP</a><br />
+Type the following on your terminal<br />
+<code><br />
+su<br />
+yourPasswd<br />
+yum install apache mysql mysql-server phpmyadmin<br />
+service start mysqld<br />
+service start httpd<br />
+</code></p>
+<p>These will do the basics for you. You still wont be able to access your apache running on your host because of firewall/iptables.</p>
+<p>referer to<a href="http://anshprat.info/2010/02/17/setting-up-your-websiteblog-using-wordpress-on-a-slicehost-slice#howto"> this post</a> for further instructions on how to get it all up and running.</p>

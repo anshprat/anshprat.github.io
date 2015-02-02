@@ -1,0 +1,28 @@
+---
+layout: post
+title: find to exclude hidden files
+date: 2011-08-31 06:47:30.000000000 +02:00
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _oembed_a4baf4fe3c20c65758c1fddd92ddca3a: '{{unknown}}'
+  _oembed_930caf6d591f1d858eba9603218bd6d1: '{{unknown}}'
+  _oembed_085fe99b34c46db70265e1de2b5f7fdf: '{{unknown}}'
+author: 
+---
+<p>I needed to clean up my home account, to remove all the usual files, except for the hidden files (the various gnome/app confs/settings etc) into one directory. This is what I used:<br />
+<code><br />
+find . -type f -maxdepth 1  ( ! -regex '.*/..*' ) -exec mv -vf {} all ;<br />
+</code><br />
+I got the regex part from here:<br />
+<a href="http://www.linuxquestions.org/questions/linux-general-1/how-do-i-make-find-exclude-hidden-files-files-613793/" target="_blank">http://www.linuxquestions.org/questions/linux-general-1/how-do-i-make-find-exclude-hidden-files-files-613793/</a></p>
+<p>Also, later I found another one that I vent tried yet, maybe later:<br />
+<a href="http://www.linuxquestions.org/questions/linux-newbie-8/delete-regular-files-not-hidden-files-with-find-rm-in-one-line-older-than-15-a-855070/" target="_blank"><br />
+http://www.linuxquestions.org/questions/linux-newbie-8/delete-regular-files-not-hidden-files-with-find-rm-in-one-line-older-than-15-a-855070/</a><br />
+<code><br />
+find /home -type f -mtime +15 -not -name ".*" -exec rm {} ;<br />
+</code></p>

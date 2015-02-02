@@ -1,0 +1,42 @@
+---
+layout: post
+title: Fedora laptop setup - Dell Inspiron 1420
+date: 2013-01-27 10:48:56.000000000 +01:00
+categories: []
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wpas_done_all: '1'
+  _wpas_skip_2752212: '1'
+author: 
+---
+<p>I ve been using fedora since FC3. I bought my laptop in 2008 and since then I ve been using fedora on my laptop. I was on Fedora 7 when I first bought my laptop and today am on Fedora 18. After every install of Fedora, I end up looking up for some of the regular problems.. sound, disable hibernate/sleep on lid close, etc etc.</p>
+<p>This blogpost is a placeholder for all such efforts going forward:</p>
+<p>No Sound problem:<br />
+<code><br />
+cat /etc/modprobe.d/snd-hda-intel.conf<br />
+options snd-hda-intel model=dell-3stack<br />
+</code></p>
+<p>Stop sleep/hibernate on lid close<br />
+<code><br />
+$ gsettings list-recursively org.gnome.settings-daemon.plugins.power|grep lid<br />
+org.gnome.settings-daemon.plugins.power lid-close-ac-action 'blank'<br />
+org.gnome.settings-daemon.plugins.power lid-close-battery-action 'blank'<br />
+org.gnome.settings-daemon.plugins.power lid-close-suspend-with-external-monitor false</p>
+<p>$gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'blank'<br />
+</code></p>
+<p>I also found this..<br />
+<a href="http://nottooamused.wordpress.com/2012/12/29/fedora-17-and-18-how-to-disable-auto-suspend-when-laptop-lid-is-closed/">http://nottooamused.wordpress.com/2012/12/29/fedora-17-and-18-how-to-disable-auto-suspend-when-laptop-lid-is-closed/</a></p>
+<p><UPDATE August 4,2014><br />
+I tried Fedora 20 on a Dell Vostro 1450 Laptop, and got problems with the wifi card.</p>
+<blockquote><p>[root@aero anshup]# lspci |grep -i network<br />
+07:00.0 Network controller: Broadcom Corporation BCM43142 802.11b/g/n (rev 01)
+</p></blockquote>
+<p>The way to fix this in Fedora 20 is:</p>
+<p>Install rpm fusion free and non free repo:</p>
+<p>su -c 'yum localinstall --nogpgcheck http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm'</p>
+<p>Now install akmod-wl<br />
+su -c 'yum install akmod-wl "kernel-devel-$(uname -r)"</p>

@@ -1,0 +1,31 @@
+---
+layout: post
+title: How to auto insert target="blank" in wordpress!
+date: 2010-03-04 18:45:51.000000000 +01:00
+categories:
+- blog
+- tech
+tags:
+- hack
+- wp
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author: 
+---
+<p>Hi,<br />
+So all of you must have used the link button in the WP editor to create links. Now the default link button makes your links open in the same tab. If you want to make your links open in a new tab, you have to add target="_blank" to your a tag.</p>
+<p>Now to do that manually everytime or use a text editor to manually edit (Ctrl+F, Ctrl+H) or whatever to search replace and add target="_blank" could be a tedious job! Why do it when you can edit one file and automate it forever.</p>
+<p>The file in question is quicktags.js and resides in "wp-includes/js" folder.</p>
+<p>Open the file in a text editor and search for "function" till you come across "function edInsertLink". This is the function responsible for inserting links to your posts.</p>
+<p>Edit this function so that the corresponding part now reads as</p>
+<blockquote><p>
+edButtons[c].tagStart='&lt;a href="'+a+'" target="_blank"&gt;'</p></blockquote>
+<p>and save.<br />
+There you go.<br />
+Now your links will have target="blank" as a part of them.</p>
+<p>Or you can just <a href="http://anshprat.info/wp-content/uploads/2010/03/quicktags.js" target="_blank">download the file</a> from here and save it in your wp-include/js/ folder.<br />
+cheers!</p>
+<p>the anAlyst</p>

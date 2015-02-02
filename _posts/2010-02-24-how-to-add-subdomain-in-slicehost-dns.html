@@ -1,0 +1,35 @@
+---
+layout: post
+title: How to add subdomain in slicehost dns
+date: 2010-02-24 21:28:58.000000000 +01:00
+categories:
+- linux
+- tech
+tags:
+- dns
+- slicehost
+- subdomain
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+author: 
+---
+<p>
+How to setup dns in slicehost?<br />
+Create the dns for your primary domain name using the setup as provided by <a href="http://articles.slicehost.com/2007/10/24/creating-dns-records">slicehost</a>.</p>
+<p>Once you have a proper working domain name configured on your slicehost,<br />
+to add a <a href="http://en.wikipedia.org/wiki/Subdomain">sub-domain</a>,</p>
+<p>login to <a href="http://manage.slicehost.com">slicehost admin</a><br />
+Go to DNS tab.<br />
+Click on records next to your domain name.<br />
+Create a new record<br />
+Type A<br />
+Name yourSubdomain.  <-- Note the last (dot). its compulsory<br />
+Data - your ip address to where you want to point your subdomain to. Most probably you want it to point to your slicehost ip itself.<br />
+change TTL if you want to.<br />
+Create record.<br />
+Done!<br />
+Now you have yourSubdomain.yourDomain up and running.</p>
+<p>PS: Am assuming you are using your slicehost dns as your primary dns. </p>
