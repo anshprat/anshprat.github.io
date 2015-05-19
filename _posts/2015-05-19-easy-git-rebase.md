@@ -1,7 +1,6 @@
 ---
 layout: post
 title: Easy git rebase using reset
-{{ page.excerpt | markdownify }}
 ---
 
 I have tried my hands at git rebase a couple of times at Aerospike and Reliance. However I never was able to get it done nicely.
@@ -41,3 +40,4 @@ the other option is to do a interactive rebase using git rebase -i and squash al
 Maybe I was not doing the rebase correctly (yeah I almost always squashed everything and ended with conflicts and the conflicts resolutin took me back to old state or divergence).
 
 Till I figure out how to do rebase correctly (if I really need that again), the above is good enough for my usecase.
+{{ page.conten | markdownify }}
