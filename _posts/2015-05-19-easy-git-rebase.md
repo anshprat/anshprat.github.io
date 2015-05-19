@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Easy git rebase using reset
+{{ page.excerpt | markdownify }}
 ---
 
 I have tried my hands at git rebase a couple of times at Aerospike and Reliance. However I never was able to get it done nicely.
@@ -8,20 +9,20 @@ Almost always, the requirement is to squash the intermediate git commit messages
 
 For example, from:
 
-```bash
+<pre>
 commit 1 - This should work
 commit 2 - oops, fixed
 commit 3 - really fixed it now!
 commit 4 - minor typo
-```
+</pre>
 to:
 
-```bash
+<pre>
 commit 1 - This should work
 commit 2 - working final
-```
+</pre>
 
-I was suggested one easy way by [Dan Bode](https://github.com/bodepd) in [this comment](https://github.com/JioCloud/puppet-rjil/pull/584/files#r29730271) and this way almost always works.
+I was suggested one easy way by [Dan Bode](https://github.com/bodepd) in [this comment](https://github.com/JioCloud/puppet-rjil/pull/584#discussion_r29730271) and this way almost always works.
 (I am yet to come across a way when it would fail but maybe coz I am no longer doing merges inbetween of the commits)
 
 Here is the suggestion provided by Dan:
