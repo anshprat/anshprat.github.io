@@ -1,3 +1,8 @@
+---
+layout: post
+title: Easy git rebase using reset
+---
+
 I have tried my hands at git rebase a couple of times at Aerospike and Reliance. However I never was able to get it done nicely.
 Almost always, the requirement is to squash the intermediate git commit messages while retaining the actual work done.
 
