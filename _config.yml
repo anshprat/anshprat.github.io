@@ -8,6 +8,7 @@ name: hackalyst
 # Short bio or description (displayed in the header)
 description: muddled muggle
 
+paginate: 10
 # URL of your avatar or profile pic (you could use your GitHub profile pic)
 avatar: https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/jekyll-logo.png
 
@@ -49,7 +50,6 @@ url:
 # then add in the baseurl here, like this: "/repository-name"
 baseurl: ""
 
-paginate: 5
 #
 # !! You don't need to change any of the configuration flags below !!
 #
