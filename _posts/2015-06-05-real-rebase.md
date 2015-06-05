@@ -12,7 +12,9 @@ These needed to be rebased.
 So, here is what Dan told me about (though in some other context/usecase) -
 
 ** How to rebase?
+
 ```bash
+
 git fetch origin
 git rebase origin/master
 # git rebase --continue as required to fix merge conflicts
