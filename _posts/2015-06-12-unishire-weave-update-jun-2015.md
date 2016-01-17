@@ -2,17 +2,11 @@
 layout: post
 title: Unishire The Weave - Jun 2015 update
 date: 2014-06-11 22:05:00.000000000 +05:30
-categories: []
-tags: []
-status: publish
-type: post
-published: true
 meta:
   _edit_last: '1'
   _publicize_twitter_user: '@anshprat'
   _wpas_done_all: '1'
   _wpas_skip_2752212: '1'
-author: 
 ---
 
 In this post, I am going to tell you the story after the place where I left [last](/unishire-the-weave/).
