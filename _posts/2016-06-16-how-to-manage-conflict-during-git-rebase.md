@@ -1,7 +1,7 @@
 ---
-published: true
+layout: post
+title: How to manage conflict during git rebase?
 ---
-## How to manage conflict during git rebase?
 
 In this blogpost, I am going to tell you why I use rebase and how I resolve git conflicts not related to my code change while doing a rebase.
 
