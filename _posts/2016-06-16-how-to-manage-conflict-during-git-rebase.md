@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 ## How to manage conflict during git rebase?
 
