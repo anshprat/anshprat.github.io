@@ -20,14 +20,14 @@ avatar: https://raw.githubusercontent.com/barryclark/jekyll-now/master/images/je
 
 # Includes an icon in the footer for each username you enter
 footer-links:
-  dribbble: 
-  email: 
-  facebook: 
-  flickr: 
+  dribbble:
+  email:
+  facebook:
+  flickr:
   github: anshprat
-  instagram: 
+  instagram:
   linkedin: anshuprateek
-  pinterest: 
+  pinterest:
   rss: # just type anything here for a working RSS icon, make sure you set the "url" above!
   twitter: anshprat
   stackoverflow: users/1675384/anshu-prateek # your stackoverflow profile, e.g. "users/50476/bart-kiers"
@@ -78,3 +78,4 @@ exclude:
     - LICENSE
     - README.md
     - CNAME
+include: [".well-known"]

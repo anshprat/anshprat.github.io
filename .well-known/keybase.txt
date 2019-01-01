@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/anshu
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://hackalyst.info
+  * I am anshu (https://keybase.io/anshu) on keybase.
+  * I have a public key ASBMZklZ_Ng8tXwENWNUfAuUSWOsVonZP4EwFjguSKMzZQo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01204c664959fcd83cb57c043563547c0b944963ac5689d93f813016382e48a333650a",
+      "host": "keybase.io",
+      "kid": "01204c664959fcd83cb57c043563547c0b944963ac5689d93f813016382e48a333650a",
+      "uid": "77aa5a4f9aa447478c828c48cd9af419",
+      "username": "anshu"
+    },
+    "merkle_root": {
+      "ctime": 1546332201,
+      "hash": "e7c2d2568d5a1e77ff030ec01da4b902e29a0d21866873659b2d446cbe627d16677b989df32ce6bc6f23684652fb89e5ac7812170ffb9c14441206cada2fd356",
+      "hash_meta": "1876d81fe42ef7b18fa3d3207d708dfcefd2465649374cada0e31fc9f131606c",
+      "seqno": 4215366
+    },
+    "service": {
+      "entropy": "wxjg4N3tfssMrHuF9JKWIlk4",
+      "hostname": "hackalyst.info",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "2.12.4"
+  },
+  "ctime": 1546332213,
+  "expire_in": 504576000,
+  "prev": "30e46902af67d4d757e98d3fa4929c1f760b90504848bcc787a98d5c44587160",
+  "seqno": 27,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgTGZJWfzYPLV8BDVjVHwLlEljrFaJ2T+BMBY4LkijM2UKp3BheWxvYWTESpcCG8QgMORpAq9n1NdX6Y0/pJKcH3YLkFBISLzHh6mNXERYcWDEIATZhjfmkmgRd86oIfrUkzPm92KZJUkFADXrVTDUn7vZAgHCo3NpZ8RABcs+2ThJhmk0OjD5okbqGcquh2x/XVBv5W5oWkHLxyenv/z8E0GewkXj0iNF6Z4irENXL8juz/XCEQfuLKalB6hzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEINvxzeGszYAfKwwLWN+wnnTZSOnxGdLVJEYfX5YBQGoEo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/anshu
+
+==================================================================
