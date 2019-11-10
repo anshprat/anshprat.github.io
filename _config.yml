@@ -79,3 +79,5 @@ exclude:
     - README.md
     - CNAME
 include: [".well-known"]
+
+theme: jekyll-theme-midnight
